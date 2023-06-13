@@ -84,10 +84,19 @@ public class StandardRecipeBookService implements RecipeBookService {
 
     @Override
     public String deleteRecipeBook(long recipeBookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteRecipeBook'");
+        // check that entity exists
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
+        checkEntityExists(optRecipeBook, "Recipe book with id: " + recipeBookId + ", cannot be found");
+        // delete entity
+        recipeBookRepository.deleteById(recipeBookId);
+        // return Success message
+        return "Successfully Deleted!";
     }
     
+    // ------------------------------------------------------------------------------------------------------------|
+
+    // ------------------------------------------------------------------------------------------------------------|
+
     private boolean hasNameDuplicate(RecipeBookDto recipeBook) {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBook.getRecipeBookName());
 
