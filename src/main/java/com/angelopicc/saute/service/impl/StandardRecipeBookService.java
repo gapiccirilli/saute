@@ -1,6 +1,5 @@
 package com.angelopicc.saute.service.impl;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,7 +11,6 @@ import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
-import com.angelopicc.saute.utility.comparator.RecipeBookComparator;
 
 import jakarta.persistence.EntityNotFoundException;
 
