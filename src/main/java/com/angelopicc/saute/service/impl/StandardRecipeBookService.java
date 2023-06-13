@@ -5,15 +5,21 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.payload.RecipeBookDto;
+import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
 
 @Service
 public class StandardRecipeBookService implements RecipeBookService {
 
+    private RecipeBookRepository recipeBookRepository;
+
+    public StandardRecipeBookService(RecipeBookRepository recipeBookRepository) {
+        this.recipeBookRepository = recipeBookRepository;
+    }
+
     @Override
     public RecipeBookDto createRecipeBook(RecipeBookDto recipeBook) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createRecipeBook'");
+        return null;
     }
 
     @Override
