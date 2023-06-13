@@ -11,6 +11,8 @@ import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class StandardRecipeBookService implements RecipeBookService {
 
@@ -36,8 +38,12 @@ public class StandardRecipeBookService implements RecipeBookService {
 
     @Override
     public RecipeBookDto getRecipeBookById(long recipeBookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRecipeBookById'");
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
+        if (!optRecipeBook.isPresent()) {
+            throw new EntityNotFoundException("Recipe book with id: " + recipeBookId + ", cannot be found");
+        }
+
+        return mapToDto(optRecipeBook.get());
     }
 
     @Override
