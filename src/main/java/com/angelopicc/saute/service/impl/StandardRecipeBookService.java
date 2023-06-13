@@ -1,7 +1,9 @@
 package com.angelopicc.saute.service.impl;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
+import com.angelopicc.saute.utility.comparator.RecipeBookComparator;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -39,23 +42,29 @@ public class StandardRecipeBookService implements RecipeBookService {
     @Override
     public RecipeBookDto getRecipeBookById(long recipeBookId) {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        if (!optRecipeBook.isPresent()) {
-            throw new EntityNotFoundException("Recipe book with id: " + recipeBookId + ", cannot be found");
-        }
+        checkEntityExists(optRecipeBook, "Recipe book with id: " + recipeBookId + ", cannot be found");
 
         return mapToDto(optRecipeBook.get());
     }
 
     @Override
     public RecipeBookDto getRecipeBookByName(String recipeBookName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRecipeBookByName'");
+        // 1. check if entity exists
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBookName);
+        checkEntityExists(optRecipeBook, "Recipe book with name: \"" + recipeBookName + "\", cannot be found");
+        // 2. map to dto and return
+        return mapToDto(optRecipeBook.get());
     }
 
     @Override
     public List<RecipeBookDto> getAllRecipeBooks() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllRecipeBooks'");
+        List<RecipeBook> recipeBooks = recipeBookRepository.findAll();
+
+        if (recipeBooks.isEmpty() || recipeBooks == null) {
+            throw new EntityNotFoundException("No recipe books");
+        }
+        
+        return mapListToDto(recipeBooks);
     }
 
     @Override
@@ -77,6 +86,21 @@ public class StandardRecipeBookService implements RecipeBookService {
             return true;
         }
         return false;
+    }
+
+    private void checkEntityExists(Optional<RecipeBook> entity, String failMessage) {
+        if (!entity.isPresent()) {
+            throw new EntityNotFoundException(failMessage);
+        }
+    }
+
+    private List<RecipeBookDto> mapListToDto(List<RecipeBook> entityList) {
+        return entityList.stream()
+        .map(book -> {
+            RecipeBookDto dto = new RecipeBookDto(book.getId(), book.getRecipeBookName());
+            return dto;
+        })
+        .collect(Collectors.toList());
     }
 
     private RecipeBook mapToEntity(RecipeBookDto dto) {
