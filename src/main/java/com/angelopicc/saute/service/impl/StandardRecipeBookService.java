@@ -69,8 +69,17 @@ public class StandardRecipeBookService implements RecipeBookService {
 
     @Override
     public RecipeBookDto updateRecipeBook(RecipeBookDto newRecipeBook, long oldRecipeBookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateRecipeBook'");
+        // 1. check that entity exists
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(oldRecipeBookId);
+        checkEntityExists(optRecipeBook, "Recipe book with id: " + oldRecipeBookId + ", cannot be found");
+        // 2. make changes to recipe book
+        RecipeBook recipeBook = optRecipeBook.get();
+        recipeBook.setId(newRecipeBook.getId());
+        recipeBook.setRecipeBookName(newRecipeBook.getRecipeBookName());
+        // 3. store recipe book
+        RecipeBook savedRecipeBook = recipeBookRepository.save(recipeBook);
+        // 4. map and return dto
+        return mapToDto(savedRecipeBook);
     }
 
     @Override
