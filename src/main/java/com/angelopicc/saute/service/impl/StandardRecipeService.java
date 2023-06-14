@@ -87,8 +87,15 @@ public class StandardRecipeService implements RecipeService {
 
     @Override
     public RecipeDto updateRecipe(RecipeDto newRecipe, long oldRecipeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateRecipe'");
+        Optional<Recipe> oldRecipe = recipeRepository.findById(oldRecipeId);
+        checkRecipeExists(oldRecipe, "Recipe with id: \"" + oldRecipeId + "\", cannot be found");
+
+        Recipe recipe = oldRecipe.get();
+        recipe.setRecipeName(newRecipe.getRecipeName());
+        recipe.setDescription(newRecipe.getDescription());
+
+        Recipe updatedRecipe = recipeRepository.save(recipe);
+        return mapToDto(updatedRecipe);
     }
 
     @Override
@@ -96,6 +103,10 @@ public class StandardRecipeService implements RecipeService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteRecipe'");
     }
+
+    // ----------------------------------------------------------------------------------------------|
+
+    // ----------------------------------------------------------------------------------------------|
 
     private void checkRecipeExists(Optional<Recipe> recipe, String failMessage) {
         if (!recipe.isPresent()) {
