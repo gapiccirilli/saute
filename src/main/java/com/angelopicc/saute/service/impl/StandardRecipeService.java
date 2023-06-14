@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
+import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
@@ -100,8 +101,15 @@ public class StandardRecipeService implements RecipeService {
 
     @Override
     public String deleteRecipe(long recipeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteRecipe'");
+        Optional<Recipe> recipe = recipeRepository.findById(recipeId);
+        checkRecipeExists(recipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+
+        recipeRepository.deleteById(recipeId);
+        Optional<Recipe> deletedEntity = recipeRepository.findById(recipeId);
+        if (deletedEntity.isPresent()) {
+            throw new DeleteFailedException();
+        }
+        return "Successfully Deleted!";
     }
 
     // ----------------------------------------------------------------------------------------------|

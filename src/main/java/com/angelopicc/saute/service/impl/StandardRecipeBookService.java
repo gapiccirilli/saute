@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
+import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeBookDto;
@@ -88,6 +90,10 @@ public class StandardRecipeBookService implements RecipeBookService {
         checkEntityExists(optRecipeBook, "Recipe book with id: " + recipeBookId + ", cannot be found");
         // delete entity
         recipeBookRepository.deleteById(recipeBookId);
+        Optional<RecipeBook> deletedEntity = recipeBookRepository.findById(recipeBookId);
+        if (deletedEntity.isPresent()) {
+            throw new DeleteFailedException();
+        }
         // return Success message
         return "Successfully Deleted!";
     }
