@@ -1,31 +1,25 @@
 package com.angelopicc.saute.payload;
 
-import java.util.List;
-
 
 public class IngredientDto {
     
     private long id;
     private String ingredientName;
-    private double amount;
-    private String measurementType;
     // this number represents number of recipes this ingredient is in
     private int numberOfRecipes;
-    // used to show all recipes that this ingredient is in
-    private List<RecipeDto> recipes;
+    private int amount;
+    private String measurmentType;
 
     public IngredientDto() {
 
     }
 
-    public IngredientDto(long id, String ingredientName, double amount, String measurementType, int numberOfRecipes,
-            List<RecipeDto> recipes) {
+    public IngredientDto(long id, String ingredientName, int numberOfRecipes, int amount, String measurmentType) {
         this.id = id;
         this.ingredientName = ingredientName;
-        this.amount = amount;
-        this.measurementType = measurementType;
         this.numberOfRecipes = numberOfRecipes;
-        this.recipes = recipes;
+        this.amount = amount;
+        this.measurmentType = measurmentType;
     }
 
     public long getId() {
@@ -44,22 +38,6 @@ public class IngredientDto {
         this.ingredientName = ingredientName;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getMeasurementType() {
-        return measurementType;
-    }
-
-    public void setMeasurementType(String measurementType) {
-        this.measurementType = measurementType;
-    }
-
     public int getNumberOfRecipes() {
         return numberOfRecipes;
     }
@@ -68,18 +46,25 @@ public class IngredientDto {
         this.numberOfRecipes = numberOfRecipes;
     }
 
-    public List<RecipeDto> getRecipes() {
-        return recipes;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setRecipes(List<RecipeDto> recipes) {
-        this.recipes = recipes;
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getMeasurmentType() {
+        return measurmentType;
+    }
+
+    public void setMeasurmentType(String measurmentType) {
+        this.measurmentType = measurmentType;
     }
 
     @Override
     public String toString() {
-        return "IngredientDto [id=" + id + ", ingredientName=" + ingredientName + ", amount=" + amount
-                + ", measurementType=" + measurementType + ", numberOfRecipes=" + numberOfRecipes + ", recipes="
-                + recipes + "]";
+        return "IngredientDto [id=" + id + ", ingredientName=" + ingredientName + ", numberOfRecipes=" + numberOfRecipes
+                + ", amount=" + amount + ", measurmentType=" + measurmentType + "]";
     }
 }

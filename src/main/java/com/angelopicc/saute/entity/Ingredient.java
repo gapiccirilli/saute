@@ -21,10 +21,6 @@ public class Ingredient {
 
     private String ingredientName;
 
-    private double amount;
-
-    private String measurementType;
-
     private String image;
 
     @ManyToMany(mappedBy = "ingredients", 
@@ -38,12 +34,9 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    public Ingredient(long id, String ingredientName, double amount, String measurementType,
-            String image) {
+    public Ingredient(long id, String ingredientName, String image) {
         this.id = id;
         this.ingredientName = ingredientName;
-        this.amount = amount;
-        this.measurementType = measurementType;
         this.image = image;
     }
 
@@ -63,21 +56,6 @@ public class Ingredient {
         this.ingredientName = ingredientName;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getMeasurementType() {
-        return measurementType;
-    }
-
-    public void setMeasurementType(String measurementType) {
-        this.measurementType = measurementType;
-    }
     public String getImage() {
         return image;
     }
@@ -112,8 +90,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "Ingredient [id=" + id + ", ingredientName=" + ingredientName + ", amount=" + amount
-                + ", measurementType=" + measurementType + ", image=" + image + ", recipes=" + recipes
+        return "Ingredient [id=" + id + ", ingredientName=" + ingredientName + ", image=" + image + ", recipes=" + recipes
                 + ", shoppingLists=" + shoppingLists + "]";
     }
 }

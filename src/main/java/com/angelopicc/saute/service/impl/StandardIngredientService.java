@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Ingredient;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
@@ -83,4 +84,7 @@ public class StandardIngredientService implements IngredientService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteIngredient'");
     }
     
+    // private Ingredient mapToEntity(IngredientDto dto) {
+    //     Ingredient entity = new Ingredient(0, null, 0, null, null)
+    // }
 }

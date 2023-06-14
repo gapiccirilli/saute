@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +28,9 @@ public class Recipe {
     private String description;
 
     private String image;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Measurement> measurements = new ArrayList<>();
 
     @ManyToMany(mappedBy = "recipes", 
     cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -47,12 +51,13 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(long id, String recipeName, String description, String image, List<Ingredient> ingredients,
-            RecipeBook recipeBook) {
+    public Recipe(long id, String recipeName, String description, String image, List<Measurement> measurements, 
+    List<Ingredient> ingredients, RecipeBook recipeBook) {
         this.id = id;
         this.recipeName = recipeName;
         this.description = description;
         this.image = image;
+        this.measurements = measurements;
         this.ingredients = ingredients;
         this.recipeBook = recipeBook;
     }
@@ -117,10 +122,18 @@ public class Recipe {
         this.shoppingLists.add(shoppingList);
     }
 
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
+
     @Override
     public String toString() {
         return "Recipe [id=" + id + ", recipeName=" + recipeName + ", description=" + description + ", image=" + image
-                + ", shoppingLists=" + shoppingLists + ", ingredients=" + ingredients + ", recipeBook=" + recipeBook
-                + "]";
+                + ", measurements=" + measurements + ", shoppingLists=" + shoppingLists + ", ingredients=" + ingredients
+                + ", recipeBook=" + recipeBook + "]";
     }
 }
