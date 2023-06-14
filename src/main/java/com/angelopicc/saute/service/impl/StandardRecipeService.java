@@ -2,11 +2,16 @@ package com.angelopicc.saute.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.swing.text.html.Option;
 
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
+import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -68,8 +73,16 @@ public class StandardRecipeService implements RecipeService {
 
     @Override
     public List<RecipeDto> getAllRecipes(long recipeBookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllRecipes'");
+        Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
+        checkRecipeBookExists(recipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        RecipeBook book = recipeBook.get();
+
+        List<Recipe> recipes = book.getRecipes();
+        if (recipes.isEmpty() || recipes == null) {
+            throw new NoRecipesFoundException("No recipes");
+        }
+
+        return mapListTDtos(recipes);
     }
 
     @Override
@@ -94,6 +107,15 @@ public class StandardRecipeService implements RecipeService {
         if (!recipeBook.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
+    }
+
+    private List<RecipeDto> mapListTDtos(List<Recipe> recipes) {
+        return recipes.stream()
+                .map(recipe -> {
+                    RecipeDto dto = new RecipeDto(recipe.getId(), recipe.getRecipeName(), recipe.getDescription());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     private Recipe mapToEntity(RecipeDto dto) {

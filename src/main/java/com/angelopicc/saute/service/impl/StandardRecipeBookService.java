@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.exception.DuplicateNameException;
+import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
@@ -59,7 +60,7 @@ public class StandardRecipeBookService implements RecipeBookService {
         List<RecipeBook> recipeBooks = recipeBookRepository.findAll();
 
         if (recipeBooks.isEmpty() || recipeBooks == null) {
-            throw new EntityNotFoundException("No recipe books");
+            throw new NoRecipesFoundException("No recipe books");
         }
         
         return mapListToDto(recipeBooks);
