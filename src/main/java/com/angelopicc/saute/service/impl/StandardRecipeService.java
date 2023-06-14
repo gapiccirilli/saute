@@ -29,9 +29,7 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto createRecipe(RecipeDto recipe, long recipeBookId) {
         // 1. check if recipe book exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        if (!optRecipeBook.isPresent()) {
-            throw new EntityNotFoundException("Recipe book with id: \"" + recipeBookId + "\", cannot be found");
-        }
+        checkRecipeBookExists(optRecipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
         // 2. map dto to entity
         Recipe recipeEntity = mapToEntity(recipe);
         // 3. add recipe book to recipe entity
@@ -45,7 +43,7 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto getRecipeById(long recipeId) {
         // 1. check for recipe exists
         Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkEntityExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
         // 2. map and return recipe
 
         return mapToDto(optRecipe.get());
@@ -53,8 +51,19 @@ public class StandardRecipeService implements RecipeService {
 
     @Override
     public RecipeDto getRecipeByName(String recipeName, long recipeBookId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRecipeByName'");
+        // 1. check if both recipe and recipe book exists
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
+        checkRecipeBookExists(optRecipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipeName);
+        checkRecipeExists(optRecipe, "Recipe with name: \"" + recipeName + "\", cannot be found");
+        // 2. 
+        Recipe recipe = optRecipe.get();
+        // 3. add recipe book to recipe entity
+        recipe.setRecipeBook(optRecipeBook.get());
+        // 4. save recipe to db and return mapped entity
+        Recipe savedRecipe = recipeRepository.save(recipe);
+
+        return mapToDto(savedRecipe);
     }
 
     @Override
@@ -75,8 +84,14 @@ public class StandardRecipeService implements RecipeService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteRecipe'");
     }
 
-    private void checkEntityExists(Optional<Recipe> recipe, String failMessage) {
+    private void checkRecipeExists(Optional<Recipe> recipe, String failMessage) {
         if (!recipe.isPresent()) {
+            throw new EntityNotFoundException(failMessage);
+        }
+    }
+
+    private void checkRecipeBookExists(Optional<RecipeBook> recipeBook, String failMessage) {
+        if (!recipeBook.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
     }
