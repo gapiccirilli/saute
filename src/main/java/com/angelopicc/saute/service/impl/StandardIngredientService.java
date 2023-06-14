@@ -5,10 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.payload.IngredientDto;
+import com.angelopicc.saute.repository.IngredientRepository;
+import com.angelopicc.saute.repository.RecipeRepository;
 import com.angelopicc.saute.service.IngredientService;
 
 @Service
 public class StandardIngredientService implements IngredientService {
+
+    private IngredientRepository ingredientRepository;
+    private RecipeRepository recipeRepository;
 
     @Override
     public IngredientDto createIngredient(IngredientDto ingredient) {
@@ -17,9 +22,14 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public IngredientDto createIngredientForRecipe(IngredientDto ingredient, long recipeId) {
+    public IngredientDto addIngredientToRecipe(long ingredientId, long recipeId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createIngredientForRecipe'");
+    }
+
+    @Override
+    public IngredientDto addIngredientToShoppingList(long ingredientId, long shoppingListId) {
+        return null;
     }
 
     @Override
@@ -35,9 +45,20 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public List<IngredientDto> getAllIngredients(long recipeId) {
+    public List<IngredientDto> getAllIngredients() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllIngredients'");
+    }
+
+    @Override
+    public List<IngredientDto> getAllIngredientsByRecipe(long recipeId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllIngredients'");
+    }
+
+    @Override
+    public List<IngredientDto> getAllIngredientsByShoppingList(long shoppingListId) {
+        return null;
     }
 
     @Override

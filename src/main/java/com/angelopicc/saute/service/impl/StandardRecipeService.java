@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
+import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
+import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.RecipeService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,10 +24,13 @@ public class StandardRecipeService implements RecipeService {
 
     private RecipeRepository recipeRepository;
     private RecipeBookRepository recipeBookRepository;
+    private ShoppingListRepository shoppingListRepository;
 
-    public StandardRecipeService(RecipeRepository recipeRepository, RecipeBookRepository recipeBookRepository) {
+    public StandardRecipeService(RecipeRepository recipeRepository, RecipeBookRepository recipeBookRepository, 
+    ShoppingListRepository shoppingListRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeBookRepository = recipeBookRepository;
+        this.shoppingListRepository = shoppingListRepository;
     }
 
     @Override
@@ -39,6 +44,21 @@ public class StandardRecipeService implements RecipeService {
         recipeEntity.setRecipeBook(optRecipeBook.get());
         // 4. save recipe to db
         Recipe savedRecipe = recipeRepository.save(recipeEntity);
+        return mapToDto(savedRecipe);
+    }
+
+    @Override
+    public RecipeDto addRecipeToShoppingList(long recipeId, long shoppingListId) {
+        Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+
+        Recipe recipe = optRecipe.get();
+        ShoppingList list = optShoppingList.get();
+        recipe.addShoppingList(list);
+        Recipe savedRecipe = recipeRepository.save(recipe);
+
         return mapToDto(savedRecipe);
     }
 
@@ -121,6 +141,12 @@ public class StandardRecipeService implements RecipeService {
 
     private void checkRecipeBookExists(Optional<RecipeBook> recipeBook, String failMessage) {
         if (!recipeBook.isPresent()) {
+            throw new EntityNotFoundException(failMessage);
+        }
+    }
+
+    private void checkShoppingListExists(Optional<ShoppingList> shoppingList, String failMessage) {
+        if (!shoppingList.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
     }

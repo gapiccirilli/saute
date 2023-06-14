@@ -99,6 +99,14 @@ public class Ingredient {
         this.shoppingLists = shoppingLists;
     }
 
+    public void addRecipe(Recipe recipe) {
+        this.recipes.add(recipe);
+    }
+
+    public void addShoppingList(ShoppingList shoppingList) {
+        this.shoppingLists.add(shoppingList);
+    }
+
     @Override
     public String toString() {
         return "Ingredient [id=" + id + ", ingredientName=" + ingredientName + ", amount=" + amount

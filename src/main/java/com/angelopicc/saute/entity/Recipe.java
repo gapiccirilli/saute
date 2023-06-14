@@ -112,6 +112,10 @@ public class Recipe {
         this.shoppingLists = shoppingLists;
     }
 
+    public void addShoppingList(ShoppingList shoppingList) {
+        this.shoppingLists.add(shoppingList);
+    }
+
     @Override
     public String toString() {
         return "Recipe [id=" + id + ", recipeName=" + recipeName + ", description=" + description + ", image=" + image
