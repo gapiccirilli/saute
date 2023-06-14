@@ -3,6 +3,7 @@ package com.angelopicc.saute.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,10 +27,12 @@ public class Ingredient {
 
     private String image;
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", 
+    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Recipe> recipes = new ArrayList<>();;
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", 
+    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
     public Ingredient() {

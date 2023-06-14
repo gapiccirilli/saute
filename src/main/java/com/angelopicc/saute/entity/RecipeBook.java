@@ -3,6 +3,7 @@ package com.angelopicc.saute.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,7 @@ public class RecipeBook {
 
     private String recipeBookName;
 
-    @OneToMany(mappedBy = "recipeBook")
+    @OneToMany(mappedBy = "recipeBook", cascade = CascadeType.ALL)
     private List<Recipe> recipes = new ArrayList<>();
 
     public RecipeBook() {

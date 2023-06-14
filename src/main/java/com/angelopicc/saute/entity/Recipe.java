@@ -28,10 +28,11 @@ public class Recipe {
 
     private String image;
 
-    @ManyToMany(mappedBy = "recipes")
+    @ManyToMany(mappedBy = "recipes", 
+    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
         name = "recipe_ingredient",
         joinColumns = @JoinColumn(name = "recipe_id"),
@@ -39,7 +40,7 @@ public class Recipe {
     )
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "recipe_book_id")
     private RecipeBook recipeBook;
 

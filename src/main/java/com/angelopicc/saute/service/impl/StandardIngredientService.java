@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
+import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.IngredientService;
 
 @Service
@@ -14,6 +16,14 @@ public class StandardIngredientService implements IngredientService {
 
     private IngredientRepository ingredientRepository;
     private RecipeRepository recipeRepository;
+    private ShoppingListRepository shoppingListRepository;
+
+    public StandardIngredientService(IngredientRepository ingredientRepository, RecipeRepository recipeRepository,
+            ShoppingListRepository shoppingListRepository) {
+        this.ingredientRepository = ingredientRepository;
+        this.recipeRepository = recipeRepository;
+        this.shoppingListRepository = shoppingListRepository;
+    }
 
     @Override
     public IngredientDto createIngredient(IngredientDto ingredient) {
