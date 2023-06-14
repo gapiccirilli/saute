@@ -18,7 +18,7 @@ import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.service.RecipeService;
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/api")
 public class RecipeRestController {
     
     private RecipeService recipeService;
@@ -27,34 +27,34 @@ public class RecipeRestController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping
-    public ResponseEntity<RecipeDto> createRecipe(@RequestBody RecipeDto recipe) {
+    @PostMapping("/recipebooks/{recipeBookId}/recipes")
+    public ResponseEntity<RecipeDto> createRecipe(@RequestBody RecipeDto recipe, @PathVariable long recipeBookId) {
 
-        return new ResponseEntity<>(recipeService.createRecipe(recipe), HttpStatus.CREATED);
+        return new ResponseEntity<>(recipeService.createRecipe(recipe, recipeBookId), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{recipeId}")
+    @GetMapping("/recipes/{recipeId}")
     public ResponseEntity<RecipeDto> getRecipeById(@PathVariable long recipeId) {
 
         return new ResponseEntity<>(recipeService.getRecipeById(recipeId), HttpStatus.OK);
     }
 
-    @GetMapping("/names/{recipeId}")
+    @GetMapping("recipes/{recipeId}/names")
     public ResponseEntity<RecipeDto> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeId) {
         return new ResponseEntity<RecipeDto>(recipeService.getRecipeByName(recipeName, recipeId), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<RecipeDto>> getAllRecipes() {
-        return new ResponseEntity<>(recipeService.getAllRecipes(), HttpStatus.OK);
+    @GetMapping("/recipebook/{recipeBookId}/recipes")
+    public ResponseEntity<List<RecipeDto>> getAllRecipes(@PathVariable long recipeBookId) {
+        return new ResponseEntity<>(recipeService.getAllRecipes(recipeBookId), HttpStatus.OK);
     }
 
-    @PutMapping("/{oldRecipeId}")
+    @PutMapping("/recipes/{oldRecipeId}")
     public ResponseEntity<RecipeDto> updateRecipe(@RequestBody RecipeDto newRecipe, @PathVariable long oldRecipeId) {
         return new ResponseEntity<>(recipeService.updateRecipe(newRecipe, oldRecipeId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{recipeId}")
+    @DeleteMapping("/recipes/{recipeId}")
     public ResponseEntity<String> deleteRecipe(@PathVariable long recipeId) {
         return new ResponseEntity<>(recipeService.deleteRecipe(recipeId), HttpStatus.OK);
     }

@@ -1,19 +1,44 @@
 package com.angelopicc.saute.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Recipe;
+import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.payload.RecipeDto;
+import com.angelopicc.saute.repository.RecipeBookRepository;
+import com.angelopicc.saute.repository.RecipeRepository;
 import com.angelopicc.saute.service.RecipeService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class StandardRecipeService implements RecipeService {
 
+    private RecipeRepository recipeRepository;
+    private RecipeBookRepository recipeBookRepository;
+
+    public StandardRecipeService(RecipeRepository recipeRepository, RecipeBookRepository recipeBookRepository) {
+        this.recipeRepository = recipeRepository;
+        this.recipeBookRepository = recipeBookRepository;
+    }
+
     @Override
-    public RecipeDto createRecipe(RecipeDto recipe) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createRecipe'");
+    public RecipeDto createRecipe(RecipeDto recipe, long recipeBookId) {
+        // 1. check if recipe book exists
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
+        if (!optRecipeBook.isPresent()) {
+            throw new EntityNotFoundException("Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        }
+        // 2. map dto to entity
+        Recipe recipeEntity = mapToEntity(recipe);
+        // 3. add recipe book to recipe entity
+        recipeEntity.setRecipeBook(optRecipeBook.get());
+        // 4. save recipe to db
+        Recipe savedRecipe = recipeRepository.save(recipeEntity);
+        return mapToDto(savedRecipe);
     }
 
     @Override
@@ -29,7 +54,7 @@ public class StandardRecipeService implements RecipeService {
     }
 
     @Override
-    public List<RecipeDto> getAllRecipes() {
+    public List<RecipeDto> getAllRecipes(long recipeBookId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllRecipes'");
     }
@@ -45,5 +70,16 @@ public class StandardRecipeService implements RecipeService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteRecipe'");
     }
+
+    private Recipe mapToEntity(RecipeDto dto) {
+        Recipe recipe = new Recipe();
+        recipe.setId(dto.getId());
+        recipe.setRecipeName(dto.getRecipeName());
+        recipe.setDescription(dto.getDescription());
+        return recipe;
+    }
     
+    private RecipeDto mapToDto(Recipe entity) {
+        return new RecipeDto(entity.getId(), entity.getRecipeName(), entity.getDescription());
+    }
 }

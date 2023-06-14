@@ -6,10 +6,10 @@ import com.angelopicc.saute.payload.RecipeDto;
 
 public interface RecipeService {
     
-    RecipeDto createRecipe(RecipeDto recipe);
+    RecipeDto createRecipe(RecipeDto recipe, long recipeBookId);
     RecipeDto getRecipeById(long recipeId);
     RecipeDto getRecipeByName(String recipeName, long recipeBookId);
-    List<RecipeDto> getAllRecipes();
+    List<RecipeDto> getAllRecipes(long recipeBookId);
     RecipeDto updateRecipe(RecipeDto newRecipe, long oldRecipeId);
     String deleteRecipe(long recipeId);
 }

@@ -17,6 +17,12 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
+    public IngredientDto createIngredientForRecipe(IngredientDto ingredient, long recipeId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createIngredientForRecipe'");
+    }
+
+    @Override
     public IngredientDto getIngredientById(long ingredientId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getIngredientById'");
@@ -29,7 +35,7 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public List<IngredientDto> getAllIngredients() {
+    public List<IngredientDto> getAllIngredients(long recipeId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllIngredients'");
     }

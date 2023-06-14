@@ -45,9 +45,9 @@ public class IngredientRestController {
         return new ResponseEntity<IngredientDto>(ingredientService.getIngredientByName(ingredientName), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<IngredientDto>> getAllIngredients() {
-        return new ResponseEntity<>(ingredientService.getAllIngredients(), HttpStatus.OK);
+    @GetMapping("")
+    public ResponseEntity<List<IngredientDto>> getAllIngredients(@PathVariable long recipeId) {
+        return new ResponseEntity<>(ingredientService.getAllIngredients(recipeId), HttpStatus.OK);
     }
 
     @PutMapping("/{oldIngredientId}")
