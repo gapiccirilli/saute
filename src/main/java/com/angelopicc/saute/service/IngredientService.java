@@ -7,8 +7,8 @@ import com.angelopicc.saute.payload.IngredientDto;
 public interface IngredientService {
     
     IngredientDto createIngredient(IngredientDto ingredient);
-    IngredientDto addIngredientToRecipe(long ingredientId, long recipeId);
-    IngredientDto addIngredientToShoppingList(long ingredientId, long shoppingListId);
+    IngredientDto addIngredientToRecipe(IngredientDto ingredientId, long recipeId);
+    IngredientDto addIngredientToShoppingList(long ingredient, long shoppingListId);
     IngredientDto getIngredientById(long ingredientId);
     IngredientDto getIngredientByName(String ingredientName);
     List<IngredientDto> getAllIngredients();
