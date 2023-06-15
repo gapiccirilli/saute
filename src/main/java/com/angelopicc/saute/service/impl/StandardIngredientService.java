@@ -79,6 +79,11 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
+    public List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> ingredients, long recipeId) {
+        return null;
+    }
+
+    @Override
     public IngredientDto addIngredientToShoppingList(long ingredientId, long shoppingListId) {
         return null;
     }
@@ -120,8 +125,32 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateIngredient'");
+        
+        return null;
+    }
+
+    @Override
+    public IngredientDto updateIngredientByRecipe(IngredientDto newIngredient, long oldIngredientId, long recipeId) {
+        // 1. get recipe via id
+        // 2. get old ingredient by id
+        // 3. remove recipe from list of recipes on ingredient
+        // 4. use ingredientDto (newIngredient) and find ingredient with id
+        // 5. add recipe to new ingredient and persist BOTH new ingredient and old ingredient
+        // 6. use measurement updateMeasurement service and pass in newIngredient and newly saved recipe entity
+        // 7. return ingredient
+        return null;
+    }
+
+    @Override
+    public IngredientDto updateIngredientByShoppingList(IngredientDto newIngredient, long oldIngredientId, long shoppingListId){
+        // 1. get shopping list via id
+        // 2. get old ingredient by id
+        // 3. remove shopping list from list of shopping lists on ingredient
+        // 4. use ingredientDto (newIngredient) and find ingredient with id
+        // 5. add shopping list to new ingredient and persist BOTH new ingredient and old ingredient
+        // 6. use measurement updateMeasurement service and pass in newIngredient and newly saved shoppingList entity
+        // 7. return ingredient
+        return null;
     }
 
     @Override

@@ -8,6 +8,7 @@ public interface IngredientService {
     
     IngredientDto createIngredient(IngredientDto ingredient);
     IngredientDto addIngredientToRecipe(IngredientDto ingredientId, long recipeId);
+    List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> ingredients, long recipeId);
     IngredientDto addIngredientToShoppingList(long ingredient, long shoppingListId);
     IngredientDto getIngredientById(long ingredientId);
     IngredientDto getIngredientByName(String ingredientName);
@@ -15,5 +16,7 @@ public interface IngredientService {
     List<IngredientDto> getAllIngredientsByRecipe(long recipeId);
     List<IngredientDto> getAllIngredientsByShoppingList(long shoppingListId);
     IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId);
+    IngredientDto updateIngredientByRecipe(IngredientDto newIngredient, long oldIngredientId, long recipeId);
+    IngredientDto updateIngredientByShoppingList(IngredientDto newIngredient, long oldIngredientId, long shoppingListId);
     String deleteIngredient(long ingredientId);
 }
