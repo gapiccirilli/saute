@@ -10,6 +10,7 @@ import com.angelopicc.saute.entity.Ingredient;
 import com.angelopicc.saute.entity.Measurement;
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.ShoppingList;
+import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.repository.MeasurementRepository;
@@ -37,8 +38,14 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public IngredientDto createIngredient(IngredientDto ingredient) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createIngredient'");
+        Optional<Ingredient> optIngredient = ingredientRepository.findByIngredientName(ingredient.getIngredientName());
+        if (optIngredient.isPresent()) {
+            throw new DuplicateNameException("Ingredient \"" + ingredient.getIngredientName() + "\" already exists");
+        }
+        Ingredient ingredientEntity = mapToEntity(ingredient);
+        Ingredient savedIngredient = ingredientRepository.save(ingredientEntity);
+
+        return mapToDto(savedIngredient);
     }
 
     @Override
