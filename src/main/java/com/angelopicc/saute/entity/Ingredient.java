@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,21 +24,18 @@ public class Ingredient {
 
     private String image;
 
-    @ManyToMany(mappedBy = "ingredients", 
-    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Recipe> recipes = new ArrayList<>();;
-
-    @ManyToMany(mappedBy = "ingredients", 
-    cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<ShoppingList> shoppingLists = new ArrayList<>();
+    @OneToMany(mappedBy = "ingredient", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
+    CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Item> items = new ArrayList<>();
 
     public Ingredient() {
     }
 
-    public Ingredient(long id, String ingredientName, String image) {
+    public Ingredient(long id, String ingredientName, String image, List<Item> items) {
         this.id = id;
         this.ingredientName = ingredientName;
         this.image = image;
+        this.items = items;
     }
 
     public long getId() {
@@ -64,33 +62,17 @@ public class Ingredient {
         this.image = image;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
-
-    public List<ShoppingList> getShoppingLists() {
-        return shoppingLists;
-    }
-
-    public void setShoppingLists(List<ShoppingList> shoppingLists) {
-        this.shoppingLists = shoppingLists;
-    }
-
-    public void addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-    }
-
-    public void addShoppingList(ShoppingList shoppingList) {
-        this.shoppingLists.add(shoppingList);
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
     public String toString() {
-        return "Ingredient [id=" + id + ", ingredientName=" + ingredientName + ", image=" + image + ", recipes=" + recipes
-                + ", shoppingLists=" + shoppingLists + "]";
+        return "Ingredient [id=" + id + ", ingredientName=" + ingredientName + ", image=" + image + ", items=" + items
+                + "]";
     }
 }

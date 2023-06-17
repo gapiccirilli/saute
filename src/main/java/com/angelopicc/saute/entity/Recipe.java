@@ -29,20 +29,13 @@ public class Recipe {
 
     private String image;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<Measurement> measurements = new ArrayList<>();
-
     @ManyToMany(mappedBy = "recipes", 
     cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-        name = "recipe_ingredient",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
+    CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Item> items = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "recipe_book_id")
@@ -51,14 +44,14 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(long id, String recipeName, String description, String image, List<Measurement> measurements, 
-    List<Ingredient> ingredients, RecipeBook recipeBook) {
+    public Recipe(long id, String recipeName, String description, String image, List<ShoppingList> shoppingLists,
+            List<Item> items, RecipeBook recipeBook) {
         this.id = id;
         this.recipeName = recipeName;
         this.description = description;
         this.image = image;
-        this.measurements = measurements;
-        this.ingredients = ingredients;
+        this.shoppingLists = shoppingLists;
+        this.items = items;
         this.recipeBook = recipeBook;
     }
 
@@ -94,14 +87,6 @@ public class Recipe {
         this.image = image;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public RecipeBook getRecipeBook() {
         return recipeBook;
     }
@@ -122,18 +107,17 @@ public class Recipe {
         this.shoppingLists.add(shoppingList);
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setMeasurements(List<Measurement> measurements) {
-        this.measurements = measurements;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
     public String toString() {
         return "Recipe [id=" + id + ", recipeName=" + recipeName + ", description=" + description + ", image=" + image
-                + ", measurements=" + measurements + ", shoppingLists=" + shoppingLists + ", ingredients=" + ingredients
-                + ", recipeBook=" + recipeBook + "]";
+                + ", shoppingLists=" + shoppingLists + ", items=" + items + ", recipeBook=" + recipeBook + "]";
     }
 }

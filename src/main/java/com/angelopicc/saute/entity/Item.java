@@ -1,9 +1,12 @@
 package com.angelopicc.saute.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -21,19 +24,30 @@ public class Item {
 
     private int seconds;
 
-    @OneToOne
+    @ManyToOne
     private Ingredient ingredient;
 
     @OneToOne
     private Measurement measurement;
 
-    public Item(long id, int hours, int minutes, int seconds, Ingredient ingredient, Measurement measurement) {
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "list_id")
+    private ShoppingList shoppingList;
+
+    public Item(long id, int hours, int minutes, int seconds, Ingredient ingredient, Measurement measurement,
+            Recipe recipe, ShoppingList shoppingList) {
         this.id = id;
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
         this.ingredient = ingredient;
         this.measurement = measurement;
+        this.recipe = recipe;
+        this.shoppingList = shoppingList;
     }
 
     public Item() {
@@ -87,9 +101,26 @@ public class Item {
         this.measurement = measurement;
     }
 
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
     @Override
     public String toString() {
         return "Item [id=" + id + ", hours=" + hours + ", minutes=" + minutes + ", seconds=" + seconds + ", ingredient="
-                + ingredient + ", measurement=" + measurement + "]";
+                + ingredient + ", measurement=" + measurement + ", recipe=" + recipe + ", shoppingList=" + shoppingList
+                + "]";
     }
 }

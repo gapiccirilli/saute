@@ -49,46 +49,6 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public IngredientDto addIngredientToRecipe(IngredientDto ingredient, long recipeId) {
-        // Using ingredient dto instead of ingredientId so that measurement data can be retrieved as well
-        // 1. get entity from ingredient and check that it exists and create new Measurement
-        Optional<Ingredient> optIngredient = ingredientRepository.findById(ingredient.getId());
-        checkIngredientExists(optIngredient, "Ingredient with id: \"" + ingredient.getId() + "\", cannot be found");
-        Ingredient ingredientEntity = optIngredient.get();
-
-        
-        // 2. get recipe entity and add it to both measurement and ingredient
-        Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
-        Recipe recipe = optRecipe.get();
-
-        // 3. make ingredientName exactly the same for measurement as it is in ingredient
-        Measurement measurement = new Measurement();
-        measurement.setIngredientName(ingredientEntity.getIngredientName());
-        measurement.setAmount(ingredient.getAmount());
-        measurement.setMeasurementType(ingredient.getMeasurmentType());
-        measurement.setRecipe(recipe);
-
-        ingredientEntity.addRecipe(recipe);
-        
-        // 4. persist both
-        Ingredient savedIngredient = ingredientRepository.save(ingredientEntity);
-        Measurement savedMeasurement = measurementRepository.save(measurement);
-
-        return mapToDto(savedIngredient, savedMeasurement);
-    }
-
-    @Override
-    public List<IngredientDto> addIngredientsToRecipe(List<IngredientDto> ingredients, long recipeId) {
-        return null;
-    }
-
-    @Override
-    public IngredientDto addIngredientToShoppingList(long ingredientId, long shoppingListId) {
-        return null;
-    }
-
-    @Override
     public IngredientDto getIngredientById(long ingredientId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getIngredientById'");
@@ -107,49 +67,8 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public List<IngredientDto> getAllIngredientsByRecipe(long recipeId) {
-        Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
-
-        Recipe recipe = optRecipe.get();
-        List<Measurement> measurements = recipe.getMeasurements();
-        List<Ingredient> ingredients = recipe.getIngredients();
-
-        return mapListToDto(ingredients, measurements);
-    }
-
-    @Override
-    public List<IngredientDto> getAllIngredientsByShoppingList(long shoppingListId) {
-        return null;
-    }
-
-    @Override
     public IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId) {
         
-        return null;
-    }
-
-    @Override
-    public IngredientDto updateIngredientByRecipe(IngredientDto newIngredient, long oldIngredientId, long recipeId) {
-        // 1. get recipe via id
-        // 2. get old ingredient by id
-        // 3. remove recipe from list of recipes on ingredient
-        // 4. use ingredientDto (newIngredient) and find ingredient with id
-        // 5. add recipe to new ingredient and persist BOTH new ingredient and old ingredient
-        // 6. use measurement updateMeasurement service and pass in newIngredient and newly saved recipe entity
-        // 7. return ingredient
-        return null;
-    }
-
-    @Override
-    public IngredientDto updateIngredientByShoppingList(IngredientDto newIngredient, long oldIngredientId, long shoppingListId){
-        // 1. get shopping list via id
-        // 2. get old ingredient by id
-        // 3. remove shopping list from list of shopping lists on ingredient
-        // 4. use ingredientDto (newIngredient) and find ingredient with id
-        // 5. add shopping list to new ingredient and persist BOTH new ingredient and old ingredient
-        // 6. use measurement updateMeasurement service and pass in newIngredient and newly saved shoppingList entity
-        // 7. return ingredient
         return null;
     }
 

@@ -3,6 +3,7 @@ package com.angelopicc.saute.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,22 +33,19 @@ public class ShoppingList {
     private List<Recipe> recipes = new ArrayList<>();
 
     // this is for additional ingredients
-    @ManyToMany
-    @JoinTable(
-        name = "list_ingredient",
-        joinColumns = @JoinColumn(name = "list_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "shoppingList", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
+    CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Item> items = new ArrayList<>();
 
     public ShoppingList() {
     }
 
-    public ShoppingList(long id, String listName, List<Recipe> recipes, List<Ingredient> ingredients) {
+    public ShoppingList(long id, String listName, List<Recipe> recipes, List<Item> items) {
         this.id = id;
         this.listName = listName;
         this.recipes = recipes;
-        this.ingredients = ingredients;
+        this.items = items;
     }
 
     public long getId() {
@@ -73,18 +72,16 @@ public class ShoppingList {
         this.recipes = recipes;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
     public String toString() {
-        return "ShoppingList [id=" + id + ", listName=" + listName + ", recipes=" + recipes + ", ingredients="
-                + ingredients + "]";
+        return "ShoppingList [id=" + id + ", listName=" + listName + ", recipes=" + recipes + ", items=" + items + "]";
     }
-    
 }
