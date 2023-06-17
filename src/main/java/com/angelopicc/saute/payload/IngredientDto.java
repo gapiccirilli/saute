@@ -7,19 +7,15 @@ public class IngredientDto {
     private String ingredientName;
     // this number represents number of recipes this ingredient is in
     private int numberOfRecipes;
-    private int amount;
-    private String measurmentType;
 
     public IngredientDto() {
 
     }
 
-    public IngredientDto(long id, String ingredientName, int numberOfRecipes, int amount, String measurmentType) {
+    public IngredientDto(long id, String ingredientName, int numberOfRecipes) {
         this.id = id;
         this.ingredientName = ingredientName;
         this.numberOfRecipes = numberOfRecipes;
-        this.amount = amount;
-        this.measurmentType = measurmentType;
     }
 
     public long getId() {
@@ -46,25 +42,8 @@ public class IngredientDto {
         this.numberOfRecipes = numberOfRecipes;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getMeasurmentType() {
-        return measurmentType;
-    }
-
-    public void setMeasurmentType(String measurmentType) {
-        this.measurmentType = measurmentType;
-    }
-
     @Override
     public String toString() {
-        return "IngredientDto [id=" + id + ", ingredientName=" + ingredientName + ", numberOfRecipes=" + numberOfRecipes
-                + ", amount=" + amount + ", measurmentType=" + measurmentType + "]";
+        return "IngredientDto [id=" + id + ", ingredientName=" + ingredientName + ", numberOfRecipes=" + numberOfRecipes + "]";
     }
 }
