@@ -7,12 +7,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Ingredient;
+import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.service.IngredientService;
-import static com.angelopicc.saute.utility.error.ErrorMessage.NO_INGREDIENTS_FOUND;
+import static com.angelopicc.saute.utility.error.StatusMessage.NO_INGREDIENTS_FOUND;
+import static com.angelopicc.saute.utility.error.StatusMessage.DELETE_SUCCESSFUL;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -83,8 +85,15 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public String deleteIngredient(long ingredientId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteIngredient'");
+        Optional<Ingredient> optIngredient = ingredientRepository.findById(ingredientId);
+        checkIngredientExists(optIngredient, "Ingredient with id: \"" + ingredientId + "\", cannot be found");
+
+        ingredientRepository.deleteById(ingredientId);
+        Optional<Ingredient> deletedIngredient = ingredientRepository.findById(ingredientId);
+        if (deletedIngredient.isPresent()) {
+            throw new DeleteFailedException();
+        }
+        return DELETE_SUCCESSFUL;
     }
 
     // --------------------------------------------------------------------------------------------------|
