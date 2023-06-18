@@ -7,15 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Ingredient;
-import com.angelopicc.saute.entity.Measurement;
-import com.angelopicc.saute.entity.Recipe;
-import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
-import com.angelopicc.saute.repository.MeasurementRepository;
-import com.angelopicc.saute.repository.RecipeRepository;
-import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.IngredientService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,16 +18,9 @@ import jakarta.persistence.EntityNotFoundException;
 public class StandardIngredientService implements IngredientService {
 
     private IngredientRepository ingredientRepository;
-    private RecipeRepository recipeRepository;
-    private ShoppingListRepository shoppingListRepository;
-    private MeasurementRepository measurementRepository;
 
-    public StandardIngredientService(IngredientRepository ingredientRepository, RecipeRepository recipeRepository,
-            ShoppingListRepository shoppingListRepository, MeasurementRepository measurementRepository) {
+    public StandardIngredientService(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
-        this.recipeRepository = recipeRepository;
-        this.shoppingListRepository = shoppingListRepository;
-        this.measurementRepository = measurementRepository;
     }
 
     @Override
@@ -78,42 +65,29 @@ public class StandardIngredientService implements IngredientService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteIngredient'");
     }
 
+    // --------------------------------------------------------------------------------------------------|
+
+    // --------------------------------------------------------------------------------------------------|
+
     private void checkIngredientExists(Optional<Ingredient> ingredient, String failMessage) {
         if (!ingredient.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
     }
 
-    private void checkRecipeExists(Optional<Recipe> recipe, String failMessage) {
-        if (!recipe.isPresent()) {
-            throw new EntityNotFoundException(failMessage);
-        }
-    }
-
-    private void checkMeasurementExists(Optional<Ingredient> measurement, String failMessage) {
-        if (!measurement.isPresent()) {
-            throw new EntityNotFoundException(failMessage);
-        }
-    }
-
-    private List<IngredientDto> mapListToDto(List<Ingredient> ingredients, List<Measurement> measurements) {
+    private List<IngredientDto> mapListToDto(List<Ingredient> ingredients) {
         return ingredients.stream()
                 .map(ingredient -> {
                     IngredientDto dto = new IngredientDto();
+                    int numOfRecipes = ingredient.getItems().size();
+
                     dto.setId(ingredient.getId());
                     dto.setIngredientName(ingredient.getIngredientName());
-                    dto.setNumberOfRecipes(ingredient.getRecipes().size());
-
-                    for (Measurement measurement : measurements) {
-                        if (ingredient.getIngredientName().equals(measurement.getIngredientName())) {
-                            dto.setAmount(measurement.getAmount());
-                            dto.setMeasurmentType(measurement.getMeasurementType());
-                            break;
-                        }
-                    }
+                    dto.setNumberOfRecipes(numOfRecipes);
+                    
                     return dto;
                 })
-                .collect(Collectors.toList());         
+                .collect(Collectors.toList());
     }
     
     private Ingredient mapToEntity(IngredientDto dto) {
@@ -126,24 +100,11 @@ public class StandardIngredientService implements IngredientService {
 
     private IngredientDto mapToDto(Ingredient entity) {
         IngredientDto dto = new IngredientDto();
-        int numOfRecipes = entity.getRecipes().size();
+        int numOfRecipes = entity.getItems().size();
 
         dto.setId(entity.getId());
         dto.setIngredientName(entity.getIngredientName());
         dto.setNumberOfRecipes(numOfRecipes);
-
-        return dto;
-    }
-
-    private IngredientDto mapToDto(Ingredient entity1, Measurement entity2) {
-        IngredientDto dto = new IngredientDto();
-        int numOfRecipes = entity1.getRecipes().size();
-
-        dto.setId(entity1.getId());
-        dto.setIngredientName(entity1.getIngredientName());
-        dto.setNumberOfRecipes(numOfRecipes);
-        dto.setAmount(entity2.getAmount());
-        dto.setMeasurmentType(entity2.getMeasurementType());
 
         return dto;
     }
