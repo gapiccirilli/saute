@@ -1,4 +1,4 @@
-package com.angelopicc.saute.utility.error;
+package com.angelopicc.saute.utility.message;
 
 public class StatusMessage {
     public static final String NO_RECIPES_FOUND = "No recipes found";

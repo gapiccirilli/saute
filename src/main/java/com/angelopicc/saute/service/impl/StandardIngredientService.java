@@ -1,5 +1,8 @@
 package com.angelopicc.saute.service.impl;
 
+import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
+import static com.angelopicc.saute.utility.message.StatusMessage.NO_INGREDIENTS_FOUND;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,8 +16,6 @@ import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.service.IngredientService;
-import static com.angelopicc.saute.utility.error.StatusMessage.NO_INGREDIENTS_FOUND;
-import static com.angelopicc.saute.utility.error.StatusMessage.DELETE_SUCCESSFUL;
 
 import jakarta.persistence.EntityNotFoundException;
 
