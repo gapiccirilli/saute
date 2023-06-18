@@ -11,6 +11,7 @@ import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
+import static com.angelopicc.saute.utility.error.ErrorMessage.NO_RECIPES_FOUND;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -97,7 +98,7 @@ public class StandardRecipeService implements RecipeService {
 
         List<Recipe> recipes = book.getRecipes();
         if (recipes.isEmpty() || recipes == null) {
-            throw new NoRecipesFoundException("No recipes");
+            throw new NoRecipesFoundException(NO_RECIPES_FOUND);
         }
 
         return mapListTDtos(recipes);

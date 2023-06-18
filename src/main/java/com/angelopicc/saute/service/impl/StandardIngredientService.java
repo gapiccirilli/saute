@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Ingredient;
 import com.angelopicc.saute.exception.DuplicateNameException;
+import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.payload.IngredientDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.service.IngredientService;
+import static com.angelopicc.saute.utility.error.ErrorMessage.NO_INGREDIENTS_FOUND;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -49,7 +51,10 @@ public class StandardIngredientService implements IngredientService {
     public List<IngredientDto> getIngredientByName(String ingredientName) {
         // use this method/endpoint for searching through ingredients
         List<Ingredient> searchedIngredients = ingredientRepository.findByIngredientNameStartingWith(ingredientName);
-        
+
+        if (searchedIngredients.isEmpty() || searchedIngredients == null) {
+            throw new NoIngredientsFoundException(NO_INGREDIENTS_FOUND);
+        }
         return mapListToDto(searchedIngredients);
     }
 
