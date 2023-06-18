@@ -60,8 +60,12 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public List<IngredientDto> getAllIngredients() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllIngredients'");
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+
+        if (ingredients.isEmpty() || ingredients == null) {
+            throw new NoIngredientsFoundException(NO_INGREDIENTS_FOUND);
+        }
+        return mapListToDto(ingredients);
     }
 
     @Override
