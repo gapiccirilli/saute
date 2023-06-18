@@ -70,8 +70,15 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId) {
-        
-        return null;
+        Optional<Ingredient> optIngredient = ingredientRepository.findById(oldIngredientId);
+        checkIngredientExists(optIngredient, "Ingredient with id: \"" + oldIngredientId + "\", cannot be found");
+        Ingredient ingredient = optIngredient.get();
+
+        ingredient.setId(newIngredient.getId());
+        ingredient.setIngredientName(newIngredient.getIngredientName());
+        Ingredient savedIngredient = ingredientRepository.save(ingredient);
+
+        return mapToDto(savedIngredient);
     }
 
     @Override
