@@ -48,7 +48,9 @@ public class StandardIngredientService implements IngredientService {
     @Override
     public List<IngredientDto> getIngredientByName(String ingredientName) {
         // use this method/endpoint for searching through ingredients
-        return null;
+        List<Ingredient> searchedIngredients = ingredientRepository.findByIngredientNameStartingWith(ingredientName);
+        
+        return mapListToDto(searchedIngredients);
     }
 
     @Override
