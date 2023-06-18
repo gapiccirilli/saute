@@ -8,7 +8,7 @@ public interface IngredientService {
     
     IngredientDto createIngredient(IngredientDto ingredient);
     IngredientDto getIngredientById(long ingredientId);
-    IngredientDto getIngredientByName(String ingredientName);
+    List <IngredientDto> getIngredientByName(String ingredientName);
     List<IngredientDto> getAllIngredients();
     IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId);
     String deleteIngredient(long ingredientId);

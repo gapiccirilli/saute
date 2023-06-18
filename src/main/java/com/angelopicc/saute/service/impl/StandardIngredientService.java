@@ -37,14 +37,18 @@ public class StandardIngredientService implements IngredientService {
 
     @Override
     public IngredientDto getIngredientById(long ingredientId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIngredientById'");
+        Optional<Ingredient> optIngredient = ingredientRepository.findById(ingredientId);
+        checkIngredientExists(optIngredient, "Ingredient with id: \"" + ingredientId + "\", cannot be found");
+
+        Ingredient ingredient = optIngredient.get();
+
+        return mapToDto(ingredient);
     }
 
     @Override
-    public IngredientDto getIngredientByName(String ingredientName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getIngredientByName'");
+    public List<IngredientDto> getIngredientByName(String ingredientName) {
+        // use this method/endpoint for searching through ingredients
+        return null;
     }
 
     @Override
