@@ -14,6 +14,7 @@ import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
+import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -95,7 +96,7 @@ public class StandardRecipeBookService implements RecipeBookService {
             throw new DeleteFailedException();
         }
         // return Success message
-        return "Successfully Deleted!";
+        return DELETE_SUCCESSFUL;
     }
     
     // ------------------------------------------------------------------------------------------------------------|

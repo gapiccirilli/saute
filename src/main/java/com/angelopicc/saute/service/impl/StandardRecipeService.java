@@ -1,5 +1,7 @@
 package com.angelopicc.saute.service.impl;
 
+import static com.angelopicc.saute.utility.message.StatusMessage.NO_RECIPES_FOUND;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,12 +13,12 @@ import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
-import static com.angelopicc.saute.utility.error.ErrorMessage.NO_RECIPES_FOUND;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.RecipeService;
+import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -127,7 +129,7 @@ public class StandardRecipeService implements RecipeService {
         if (deletedEntity.isPresent()) {
             throw new DeleteFailedException();
         }
-        return "Successfully Deleted!";
+        return DELETE_SUCCESSFUL;
     }
 
     // ----------------------------------------------------------------------------------------------|
