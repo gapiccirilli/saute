@@ -1,12 +1,10 @@
 package com.angelopicc.saute.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,18 +18,14 @@ public class Measurement {
 
     private String measurementType;
 
-    private String ingredientName;
+    @OneToOne(mappedBy = "measurement")
+    private Item item;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
-
-    public Measurement(long id, int amount, String measurementType, String ingredientName, Recipe recipe) {
+    public Measurement(long id, int amount, String measurementType, Item item) {
         this.id = id;
         this.amount = amount;
         this.measurementType = measurementType;
-        this.ingredientName = ingredientName;
-        this.recipe = recipe;
+        this.item = item;
     }
 
     public Measurement() {
@@ -61,25 +55,17 @@ public class Measurement {
         this.measurementType = measurementType;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
+    public Item getItem() {
+        return item;
     }
 
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     @Override
     public String toString() {
-        return "Measurement [id=" + id + ", amount=" + amount + ", measurementType=" + measurementType
-                + ", ingredientName=" + ingredientName + "]";
+        return "Measurement [id=" + id + ", amount=" + amount + ", measurementType=" + measurementType + ", item="
+                + item + "]";
     }
 }

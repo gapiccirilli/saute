@@ -27,7 +27,7 @@ public class Item {
     @ManyToOne
     private Ingredient ingredient;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Measurement measurement;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
