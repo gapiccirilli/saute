@@ -39,7 +39,7 @@ public class RecipeBookRestController {
         return new ResponseEntity<>(recipeBookService.getRecipeBookById(recipeBookId), HttpStatus.OK);
     }
 
-    @GetMapping("/names")
+    @GetMapping("/search")
     public ResponseEntity<RecipeBookDto> getRecipeBookByName(@RequestParam String recipeBookName) {
         return new ResponseEntity<RecipeBookDto>(recipeBookService.getRecipeBookByName(recipeBookName), HttpStatus.OK);
     }

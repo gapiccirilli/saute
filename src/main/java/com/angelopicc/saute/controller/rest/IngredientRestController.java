@@ -40,15 +40,10 @@ public class IngredientRestController {
         return new ResponseEntity<>(ingredientService.getIngredientById(ingredientId), HttpStatus.OK);
     }
 
-    @GetMapping("/names/")
+    @GetMapping("/search")
     public ResponseEntity<List<IngredientDto>> getIngredientByName(@RequestParam String ingredientName) {
         return new ResponseEntity<>(ingredientService.getIngredientByName(ingredientName), HttpStatus.OK);
     }
-
-    // @GetMapping("")
-    // public ResponseEntity<List<IngredientDto>> getAllIngredients(@PathVariable long recipeId) {
-    //     return new ResponseEntity<>(ingredientService.getAllIngredients(recipeId), HttpStatus.OK);
-    // }
 
     @PutMapping("/{oldIngredientId}")
     public ResponseEntity<IngredientDto> updateIngredient(@RequestBody IngredientDto newIngredient, @PathVariable long oldIngredientId) {

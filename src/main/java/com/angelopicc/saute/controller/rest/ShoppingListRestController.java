@@ -18,7 +18,7 @@ import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.service.ShoppingListService;
 
 @RestController
-@RequestMapping("/api/lists")
+@RequestMapping("/api/shopping-lists")
 public class ShoppingListRestController {
     
     private ShoppingListService shoppingListService;
@@ -39,7 +39,7 @@ public class ShoppingListRestController {
         return new ResponseEntity<>(shoppingListService.getShoppingListById(shoppingListId), HttpStatus.OK);
     }
 
-    @GetMapping("/names/")
+    @GetMapping("/search")
     public ResponseEntity<ShoppingListDto> getShoppingListByName(@RequestParam String shoppingListName) {
         return new ResponseEntity<ShoppingListDto>(shoppingListService.getShoppingListByName(shoppingListName), HttpStatus.OK);
     }
