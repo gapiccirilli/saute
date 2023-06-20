@@ -120,8 +120,11 @@ public class StandardItemService implements ItemService {
 
     @Override
     public List<ItemDto> getAllItemsByShoppingList(long shoppingListId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllItemsByShoppingList'");
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+
+        ShoppingList shoppingList = optShoppingList.get();
+        return mapListToDto(shoppingList.getItems());
     }
 
     @Override
