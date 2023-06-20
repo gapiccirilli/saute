@@ -1,6 +1,7 @@
 package com.angelopicc.saute.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.service.ShoppingListService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class StandardShoppingListService implements ShoppingListService {
@@ -46,6 +49,12 @@ public class StandardShoppingListService implements ShoppingListService {
     public String deleteShoppingList(long shoppingListId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteShoppingList'");
+    }
+
+    private void checkShoppingListExists(Optional<ShoppingList> shoppingList, String failMessage) {
+        if (!shoppingList.isPresent()) {
+            throw new EntityNotFoundException(failMessage);
+        }
     }
     
     private ShoppingList mapToEntity(ShoppingListDto dto) {
