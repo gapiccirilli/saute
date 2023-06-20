@@ -1,18 +1,20 @@
 package com.angelopicc.saute.payload;
 
 public class ItemDto {
-    
+    // ingredientId will be used to retrieve the correct ingredient to add to item entity 
     private long id;
+    private long ingredientId;
     private String ingredientName;
     private double amount;
     private String measurementType;
     private int hours;
     private int minutes;
     private int seconds;
-    
-    public ItemDto(long id, String ingredientName, double amount, String measurementType, int hours, int minutes,
-            int seconds) {
+
+    public ItemDto(long id, long ingredientId, String ingredientName, double amount, String measurementType, int hours,
+            int minutes, int seconds) {
         this.id = id;
+        this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
         this.amount = amount;
         this.measurementType = measurementType;
@@ -32,12 +34,12 @@ public class ItemDto {
         this.id = id;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
+    public long getIngredientId() {
+        return ingredientId;
     }
 
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
+    public void setIngredientId(long ingredientId) {
+        this.ingredientId = ingredientId;
     }
 
     public double getAmount() {
@@ -80,9 +82,18 @@ public class ItemDto {
         this.seconds = seconds;
     }
 
+    public String getIngredientName() {
+        return ingredientName;
+    }
+
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
     @Override
     public String toString() {
-        return "ItemDto [id=" + id + ", ingredientName=" + ingredientName + ", amount=" + amount + ", measurementType="
-                + measurementType + ", hours=" + hours + ", minutes=" + minutes + ", seconds=" + seconds + "]";
+        return "ItemDto [id=" + id + ", ingredientId=" + ingredientId + ", ingredientName=" + ingredientName
+                + ", amount=" + amount + ", measurementType=" + measurementType + ", hours=" + hours + ", minutes="
+                + minutes + ", seconds=" + seconds + "]";
     }
 }
