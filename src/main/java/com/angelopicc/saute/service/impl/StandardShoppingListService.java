@@ -1,9 +1,11 @@
 package com.angelopicc.saute.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.service.ShoppingListService;
 
@@ -46,4 +48,23 @@ public class StandardShoppingListService implements ShoppingListService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteShoppingList'");
     }
     
+    private ShoppingList mapToEntity(ShoppingListDto dto) {
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.setId(dto.getId());
+        shoppingList.setListName(dto.getListName());
+        return shoppingList;
+    }
+
+    private ShoppingListDto mapToDto(ShoppingList entity) {
+        ShoppingListDto dto = new ShoppingListDto(entity.getId(), entity.getListName());
+        return dto;
+    }
+
+    private List<ShoppingList> mapListToEntity(List<ShoppingListDto> dtos) {
+        return dtos.stream().map(dto -> mapToEntity(dto)).collect(Collectors.toList());
+    }
+
+    private List<ShoppingListDto> mapListToDto(List<ShoppingList> entities) {
+        return entities.stream().map(entity -> mapToDto(entity)).collect(Collectors.toList());
+    }
 }
