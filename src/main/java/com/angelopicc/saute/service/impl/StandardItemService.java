@@ -67,14 +67,27 @@ public class StandardItemService implements ItemService {
         itemEntity.setMeasurement(measurement);
 
         Item savedItem = itemRepository.save(itemEntity);
-        
+
         return mapToDto(savedItem);
     }
 
     @Override
     public List<ItemDto> createItemsForRecipe(List<ItemDto> items, long recipeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createItemsForRecipe'");
+        Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
+        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        Recipe recipe = optRecipe.get();
+
+        List<Item> itemList = items.stream().map(item -> {
+            Item itemEntity = mapToEntity(item);
+            Measurement measurement = measurementService.createMeasurement(item.getAmount(), item.getMeasurementType());
+            itemEntity.setRecipe(recipe);
+            itemEntity.setMeasurement(measurement);
+            return itemEntity;
+        }).collect(Collectors.toList());
+
+        List<Item> savedItems = itemRepository.saveAll(itemList);
+
+        return mapListToDto(savedItems);
     }
 
     @Override
