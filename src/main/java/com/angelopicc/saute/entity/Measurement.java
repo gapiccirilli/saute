@@ -14,14 +14,14 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int amount;
+    private double amount;
 
     private String measurementType;
 
     @OneToOne(mappedBy = "measurement")
     private Item item;
 
-    public Measurement(long id, int amount, String measurementType, Item item) {
+    public Measurement(long id, double amount, String measurementType, Item item) {
         this.id = id;
         this.amount = amount;
         this.measurementType = measurementType;
@@ -39,11 +39,11 @@ public class Measurement {
         this.id = id;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
