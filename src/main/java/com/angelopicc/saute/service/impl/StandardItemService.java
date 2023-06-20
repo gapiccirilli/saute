@@ -58,8 +58,17 @@ public class StandardItemService implements ItemService {
 
     @Override
     public ItemDto createItemForShoppingList(ItemDto item, long shoppingListId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createItemForShoppingList'");
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+        Item itemEntity = mapToEntity(item);
+
+        Measurement measurement = measurementService.createMeasurement(item.getAmount(), item.getMeasurementType());
+        itemEntity.setShoppingList(optShoppingList.get());
+        itemEntity.setMeasurement(measurement);
+
+        Item savedItem = itemRepository.save(itemEntity);
+        
+        return mapToDto(savedItem);
     }
 
     @Override
