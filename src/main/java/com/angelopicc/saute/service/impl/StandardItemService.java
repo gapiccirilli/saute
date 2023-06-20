@@ -111,8 +111,11 @@ public class StandardItemService implements ItemService {
 
     @Override
     public List<ItemDto> getAllItemsByRecipe(long recipeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllItemsByRecipe'");
+        Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
+        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+
+        Recipe recipe = optRecipe.get();
+        return mapListToDto(recipe.getItems());
     }
 
     @Override
