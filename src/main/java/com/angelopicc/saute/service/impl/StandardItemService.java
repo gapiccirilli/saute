@@ -11,6 +11,7 @@ import com.angelopicc.saute.entity.Item;
 import com.angelopicc.saute.entity.Measurement;
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.ShoppingList;
+import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.payload.ItemDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.repository.ItemRepository;
@@ -21,6 +22,7 @@ import com.angelopicc.saute.service.ItemService;
 import com.angelopicc.saute.service.MeasurementService;
 
 import jakarta.persistence.EntityNotFoundException;
+import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
 
 @Service
 public class StandardItemService implements ItemService {
@@ -159,9 +161,19 @@ public class StandardItemService implements ItemService {
 
     @Override
     public String deleteItem(long itemId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteItem'");
+        Optional<Item> optItem = itemRepository.findById(itemId);
+        checkItemExists(optItem, "Item with id: \"" + itemId + "\", cannot be found");
+
+        itemRepository.deleteById(itemId);
+        Optional<Item> deletedItem = itemRepository.findById(itemId);
+        if (deletedItem.isPresent()) {
+            throw new DeleteFailedException();
+        }
+
+        return DELETE_SUCCESSFUL;
     }
+
+    // ----------------------------------------------------------------------------------------|
 
     private void checkRecipeExists(Optional<Recipe> recipe, String failMessage) {
         if (!recipe.isPresent()) {
