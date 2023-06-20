@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Ingredient;
 import com.angelopicc.saute.entity.Item;
 import com.angelopicc.saute.entity.Measurement;
 import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.ItemDto;
+import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.repository.ItemRepository;
 import com.angelopicc.saute.repository.MeasurementRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -28,17 +30,17 @@ public class StandardItemService implements ItemService {
     private ShoppingListRepository shoppingListRepository;
     private MeasurementService measurementService;
     private MeasurementRepository measurementRepository;
+    private IngredientRepository ingredientRepository;
  
-    
-
     public StandardItemService(ItemRepository itemRepository, RecipeRepository recipeRepository,
             ShoppingListRepository shoppingListRepository, MeasurementService measurementService,
-            MeasurementRepository measurementRepository) {
+            MeasurementRepository measurementRepository, IngredientRepository ingredientRepository) {
         this.itemRepository = itemRepository;
         this.recipeRepository = recipeRepository;
         this.shoppingListRepository = shoppingListRepository;
         this.measurementService = measurementService;
         this.measurementRepository = measurementRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -129,8 +131,30 @@ public class StandardItemService implements ItemService {
 
     @Override
     public ItemDto updateItem(ItemDto newItem, long oldItemId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateItem'");
+        Optional<Item> oldItem = itemRepository.findById(oldItemId);
+        checkItemExists(oldItem, "Item with id: \"" + oldItemId + "\", cannot be found");
+        Item item = oldItem.get();
+
+        Measurement newMeasurement = item.getMeasurement();
+        newMeasurement.setAmount(newItem.getAmount());
+        newMeasurement.setMeasurementType(newItem.getMeasurementType());
+
+        item.setMeasurement(newMeasurement);
+        item.setHours(newItem.getHours());
+        item.setMinutes(newItem.getMinutes());
+        item.setSeconds(newItem.getSeconds());
+        
+        if (item.getIngredient().getId() != newItem.getIngredientId()) {
+            Optional<Ingredient> optIngredient = ingredientRepository.findById(newItem.getIngredientId());
+            if (!optIngredient.isPresent()) {
+                throw new EntityNotFoundException("Ingredient with id: \"" + newItem.getIngredientId() + "\", cannot be found");
+            }
+            Ingredient newIngredient = optIngredient.get();
+            item.setIngredient(newIngredient);
+        }
+        Item savedItem = itemRepository.save(item);
+
+        return mapToDto(savedItem);
     }
 
     @Override
