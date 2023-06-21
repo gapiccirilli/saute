@@ -7,10 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.ShoppingList;
+import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ShoppingListService;
+import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
+
 import static com.angelopicc.saute.utility.message.StatusMessage.NO_SHOPPING_LISTS_FOUND;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -76,8 +79,16 @@ public class StandardShoppingListService implements ShoppingListService {
 
     @Override
     public String deleteShoppingList(long shoppingListId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteShoppingList'");
+        Optional<ShoppingList> shoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(shoppingList, "Shoppinglist with id: \"" + shoppingListId + "\", cannot be found");
+
+        shoppingListRepository.deleteById(shoppingListId);
+        Optional<ShoppingList> deletedList = shoppingListRepository.findById(shoppingListId);
+        if (deletedList.isPresent()) {
+            throw new DeleteFailedException();
+        }
+
+        return DELETE_SUCCESSFUL;
     }
 
     private void checkShoppingListExists(Optional<ShoppingList> shoppingList, String failMessage) {
