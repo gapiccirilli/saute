@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.payload.ShoppingListDto;
+import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ShoppingListService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -15,10 +16,18 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class StandardShoppingListService implements ShoppingListService {
 
+    private ShoppingListRepository shoppingListRepository;
+
+    public StandardShoppingListService(ShoppingListRepository shoppingListRepository) {
+        this.shoppingListRepository = shoppingListRepository;
+    }
+
     @Override
     public ShoppingListDto createShoppingList(ShoppingListDto shoppingList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createShoppingList'");
+        ShoppingList shoppingListEntity = mapToEntity(shoppingList);
+        ShoppingList savedList = shoppingListRepository.save(shoppingListEntity);
+
+        return mapToDto(savedList);
     }
 
     @Override
