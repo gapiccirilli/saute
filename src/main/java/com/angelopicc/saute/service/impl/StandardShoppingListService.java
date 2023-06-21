@@ -54,14 +54,24 @@ public class StandardShoppingListService implements ShoppingListService {
 
     @Override
     public List<ShoppingListDto> getAllShoppingLists() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllShoppingLists'");
+        List<ShoppingList> shoppingLists = shoppingListRepository.findAll();
+
+        if (shoppingLists.isEmpty() || shoppingLists == null) {
+            throw new NoShoppingListsFoundException(NO_SHOPPING_LISTS_FOUND);
+        }
+        return mapListToDto(shoppingLists);
     }
 
     @Override
     public ShoppingListDto updateShoppingList(ShoppingListDto newShoppingList, long oldShoppingListId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateShoppingList'");
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(oldShoppingListId);
+        checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + oldShoppingListId + "\", cannot be found");
+        ShoppingList shoppingList = optShoppingList.get();
+
+        shoppingList.setListName(newShoppingList.getListName());
+        ShoppingList savedShoppingList = shoppingListRepository.save(shoppingList);
+
+        return mapToDto(savedShoppingList);
     }
 
     @Override
