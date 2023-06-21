@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.ShoppingList;
+import com.angelopicc.saute.exception.NoShoppingListsFoundException;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ShoppingListService;
+import static com.angelopicc.saute.utility.message.StatusMessage.NO_SHOPPING_LISTS_FOUND;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -32,14 +34,22 @@ public class StandardShoppingListService implements ShoppingListService {
 
     @Override
     public ShoppingListDto getShoppingListById(long shoppingListId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShoppingListById'");
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + shoppingListId + "\", cannot be found");
+        ShoppingList shoppingList = optShoppingList.get();
+
+        return mapToDto(shoppingList);
     }
 
     @Override
-    public ShoppingListDto getShoppingListByName(String shoppingListName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getShoppingListByName'");
+    public List<ShoppingListDto> getShoppingListByName(String shoppingListName) {
+        // for searching
+        List<ShoppingList> shoppingLists = shoppingListRepository.findByShoppingListNameStartingWith(shoppingListName);
+
+        if (shoppingLists.isEmpty() || shoppingLists == null) {
+            throw new NoShoppingListsFoundException(NO_SHOPPING_LISTS_FOUND);
+        }
+        return mapListToDto(shoppingLists);
     }
 
     @Override

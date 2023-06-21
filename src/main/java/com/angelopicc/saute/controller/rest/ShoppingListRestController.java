@@ -40,8 +40,8 @@ public class ShoppingListRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ShoppingListDto> getShoppingListByName(@RequestParam String shoppingListName) {
-        return new ResponseEntity<ShoppingListDto>(shoppingListService.getShoppingListByName(shoppingListName), HttpStatus.OK);
+    public ResponseEntity<List<ShoppingListDto>> getShoppingListByName(@RequestParam String shoppingListName) {
+        return new ResponseEntity<>(shoppingListService.getShoppingListByName(shoppingListName), HttpStatus.OK);
     }
 
     @GetMapping

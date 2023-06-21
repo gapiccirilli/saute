@@ -8,7 +8,7 @@ public interface ShoppingListService {
     
     ShoppingListDto createShoppingList(ShoppingListDto shoppingList);
     ShoppingListDto getShoppingListById(long shoppingListId);
-    ShoppingListDto getShoppingListByName(String shoppingListName);
+    List<ShoppingListDto> getShoppingListByName(String shoppingListName);
     List<ShoppingListDto> getAllShoppingLists();
     ShoppingListDto updateShoppingList(ShoppingListDto newShoppingList, long oldShoppingListId);
     String deleteShoppingList(long shoppingListId);
