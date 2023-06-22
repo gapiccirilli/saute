@@ -34,7 +34,7 @@ public class StandardIngredientService implements IngredientService {
     public IngredientDto createIngredient(IngredientDto ingredient) {
         Optional<Ingredient> optIngredient = ingredientRepository.findByIngredientName(ingredient.getIngredientName());
         if (optIngredient.isPresent()) {
-            throw new DuplicateNameException("Ingredient \"" + ingredient.getIngredientName() + "\" already exists");
+            throw new DuplicateNameException("Ingredient '" + ingredient.getIngredientName() + "' already exists");
         }
         Ingredient ingredientEntity = mapToEntity(ingredient);
         Ingredient savedIngredient = ingredientRepository.save(ingredientEntity);
@@ -45,7 +45,7 @@ public class StandardIngredientService implements IngredientService {
     @Override
     public IngredientDto getIngredientById(long ingredientId) {
         Optional<Ingredient> optIngredient = ingredientRepository.findById(ingredientId);
-        checkIngredientExists(optIngredient, "Ingredient with id: \"" + ingredientId + "\", cannot be found");
+        checkIngredientExists(optIngredient, "Ingredient with id: '" + ingredientId + "', cannot be found");
 
         Ingredient ingredient = optIngredient.get();
 
@@ -76,11 +76,11 @@ public class StandardIngredientService implements IngredientService {
     @Override
     public IngredientDto updateIngredient(IngredientDto newIngredient, long oldIngredientId) {
         Optional<Ingredient> optIngredient = ingredientRepository.findById(oldIngredientId);
-        checkIngredientExists(optIngredient, "Ingredient with id: \"" + oldIngredientId + "\", cannot be found");
+        checkIngredientExists(optIngredient, "Ingredient with id: '" + oldIngredientId + "', cannot be found");
         Ingredient ingredient = optIngredient.get();
 
         if (hasNameDuplicate(newIngredient)) {
-            throw new DuplicateNameException("Ingredient \"" + newIngredient.getIngredientName() + "\" already exists");
+            throw new DuplicateNameException("Ingredient '" + newIngredient.getIngredientName() + "' already exists");
         }
 
         ingredient.setIngredientName(newIngredient.getIngredientName());
@@ -92,7 +92,7 @@ public class StandardIngredientService implements IngredientService {
     @Override
     public String deleteIngredient(long ingredientId) {
         Optional<Ingredient> optIngredient = ingredientRepository.findById(ingredientId);
-        checkIngredientExists(optIngredient, "Ingredient with id: \"" + ingredientId + "\", cannot be found");
+        checkIngredientExists(optIngredient, "Ingredient with id: '" + ingredientId + "', cannot be found");
 
         ingredientRepository.deleteById(ingredientId);
         Optional<Ingredient> deletedIngredient = ingredientRepository.findById(ingredientId);
