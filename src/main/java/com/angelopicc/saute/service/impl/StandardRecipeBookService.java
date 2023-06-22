@@ -77,7 +77,7 @@ public class StandardRecipeBookService implements RecipeBookService {
         RecipeBook recipeBook = optRecipeBook.get();
 
         if (hasNameDuplicate(newRecipeBook)) {
-            throw new DuplicateNameException("Recipe book \"" + newRecipeBook.getRecipeBookName() + "\" already exists");
+            throw new DuplicateNameException("Recipe book '" + newRecipeBook.getRecipeBookName() + "' already exists");
         }
         recipeBook.setRecipeBookName(newRecipeBook.getRecipeBookName());
         // 3. store recipe book

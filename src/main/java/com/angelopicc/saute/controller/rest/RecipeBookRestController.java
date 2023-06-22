@@ -18,7 +18,7 @@ import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.service.RecipeBookService;
 
 @RestController
-@RequestMapping("/api/recipebooks")
+@RequestMapping("/api/recipe-books")
 public class RecipeBookRestController {
 
     private RecipeBookService recipeBookService;
