@@ -76,6 +76,10 @@ public class StandardRecipeBookService implements RecipeBookService {
         checkEntityExists(optRecipeBook, "Recipe book with id: " + oldRecipeBookId + ", cannot be found");
         // 2. make changes to recipe book
         RecipeBook recipeBook = optRecipeBook.get();
+
+        if (recipeBook.getRecipeBookName().equals(newRecipeBook.getRecipeBookName())) {
+            throw new DuplicateNameException("Recipe book \"" + newRecipeBook.getRecipeBookName() + "\" already exists");
+        }
         recipeBook.setRecipeBookName(newRecipeBook.getRecipeBookName());
         // 3. store recipe book
         RecipeBook savedRecipeBook = recipeBookRepository.save(recipeBook);

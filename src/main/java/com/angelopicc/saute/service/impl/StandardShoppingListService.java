@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
+import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
+import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ShoppingListService;
@@ -30,6 +33,11 @@ public class StandardShoppingListService implements ShoppingListService {
     @Override
     public ShoppingListDto createShoppingList(ShoppingListDto shoppingList) {
         ShoppingList shoppingListEntity = mapToEntity(shoppingList);
+
+        if (hasNameDuplicate(shoppingList)) {
+            throw new DuplicateNameException("Shopping list \"" + shoppingList.getListName() + "\" already exists");
+        }
+
         ShoppingList savedList = shoppingListRepository.save(shoppingListEntity);
 
         return mapToDto(savedList);
@@ -71,6 +79,10 @@ public class StandardShoppingListService implements ShoppingListService {
         checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + oldShoppingListId + "\", cannot be found");
         ShoppingList shoppingList = optShoppingList.get();
 
+        if (shoppingList.getListName().equals(newShoppingList.getListName())) {
+            throw new DuplicateNameException("Ingredient \"" + newShoppingList.getListName() + "\" already exists");
+        }
+
         shoppingList.setListName(newShoppingList.getListName());
         ShoppingList savedShoppingList = shoppingListRepository.save(shoppingList);
 
@@ -95,6 +107,15 @@ public class StandardShoppingListService implements ShoppingListService {
         if (!shoppingList.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
+    }
+
+    private boolean hasNameDuplicate(ShoppingListDto list) {
+        Optional<ShoppingList> optList = shoppingListRepository.findByListName(list.getListName());
+
+        if (optList.isPresent()) {
+            return true;
+        }
+        return false;
     }
     
     private ShoppingList mapToEntity(ShoppingListDto dto) {

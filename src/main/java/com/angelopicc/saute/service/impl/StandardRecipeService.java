@@ -12,7 +12,9 @@ import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
+import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
+import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -41,6 +43,10 @@ public class StandardRecipeService implements RecipeService {
         // 1. check if recipe book exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+
+        if (hasNameDuplicate(recipe)) {
+            throw new DuplicateNameException("Recipe \"" + recipe.getRecipeName() + "\" already exists");
+        }
         // 2. map dto to entity
         Recipe recipeEntity = mapToEntity(recipe);
         // 3. add recipe book to recipe entity
@@ -112,6 +118,10 @@ public class StandardRecipeService implements RecipeService {
         checkRecipeExists(oldRecipe, "Recipe with id: \"" + oldRecipeId + "\", cannot be found");
 
         Recipe recipe = oldRecipe.get();
+
+        if (recipe.getRecipeName().equals(newRecipe.getRecipeName())) {
+            throw new DuplicateNameException("Ingredient \"" + newRecipe.getRecipeName() + "\" already exists");
+        }
         recipe.setRecipeName(newRecipe.getRecipeName());
         recipe.setDescription(newRecipe.getDescription());
 
@@ -152,6 +162,15 @@ public class StandardRecipeService implements RecipeService {
         if (!shoppingList.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
+    }
+
+    private boolean hasNameDuplicate(RecipeDto recipe) {
+        Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
+
+        if (optRecipe.isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     private List<RecipeDto> mapListToDtos(List<Recipe> recipes) {
