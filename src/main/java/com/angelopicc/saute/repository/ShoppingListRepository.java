@@ -8,5 +8,5 @@ import com.angelopicc.saute.entity.ShoppingList;
 
 public interface ShoppingListRepository extends JpaRepository<ShoppingList, Long> {
 
-    List<ShoppingList> findByShoppingListNameStartingWith(String search);
+    List<ShoppingList> findByListNameStartingWith(String search);
 }

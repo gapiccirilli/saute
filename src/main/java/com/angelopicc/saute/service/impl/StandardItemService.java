@@ -15,7 +15,6 @@ import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.payload.ItemDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.repository.ItemRepository;
-import com.angelopicc.saute.repository.MeasurementRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ItemService;
@@ -31,17 +30,15 @@ public class StandardItemService implements ItemService {
     private RecipeRepository recipeRepository;
     private ShoppingListRepository shoppingListRepository;
     private MeasurementService measurementService;
-    private MeasurementRepository measurementRepository;
     private IngredientRepository ingredientRepository;
  
     public StandardItemService(ItemRepository itemRepository, RecipeRepository recipeRepository,
             ShoppingListRepository shoppingListRepository, MeasurementService measurementService,
-            MeasurementRepository measurementRepository, IngredientRepository ingredientRepository) {
+             IngredientRepository ingredientRepository) {
         this.itemRepository = itemRepository;
         this.recipeRepository = recipeRepository;
         this.shoppingListRepository = shoppingListRepository;
         this.measurementService = measurementService;
-        this.measurementRepository = measurementRepository;
         this.ingredientRepository = ingredientRepository;
     }
 
