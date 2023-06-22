@@ -119,7 +119,7 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = oldRecipe.get();
 
-        if (recipe.getRecipeName().equals(newRecipe.getRecipeName())) {
+        if (hasNameDuplicate(newRecipe)) {
             throw new DuplicateNameException("Ingredient \"" + newRecipe.getRecipeName() + "\" already exists");
         }
         recipe.setRecipeName(newRecipe.getRecipeName());

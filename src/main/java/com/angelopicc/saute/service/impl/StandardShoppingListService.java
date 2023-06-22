@@ -79,7 +79,7 @@ public class StandardShoppingListService implements ShoppingListService {
         checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + oldShoppingListId + "\", cannot be found");
         ShoppingList shoppingList = optShoppingList.get();
 
-        if (shoppingList.getListName().equals(newShoppingList.getListName())) {
+        if (hasNameDuplicate(newShoppingList)) {
             throw new DuplicateNameException("Ingredient \"" + newShoppingList.getListName() + "\" already exists");
         }
 

@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.Ingredient;
+import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.payload.IngredientDto;
+import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.IngredientRepository;
 import com.angelopicc.saute.service.IngredientService;
 
@@ -77,7 +79,7 @@ public class StandardIngredientService implements IngredientService {
         checkIngredientExists(optIngredient, "Ingredient with id: \"" + oldIngredientId + "\", cannot be found");
         Ingredient ingredient = optIngredient.get();
 
-        if (newIngredient.getIngredientName().equals(ingredient.getIngredientName())) {
+        if (hasNameDuplicate(newIngredient)) {
             throw new DuplicateNameException("Ingredient \"" + newIngredient.getIngredientName() + "\" already exists");
         }
 
@@ -108,6 +110,15 @@ public class StandardIngredientService implements IngredientService {
         if (!ingredient.isPresent()) {
             throw new EntityNotFoundException(failMessage);
         }
+    }
+
+    private boolean hasNameDuplicate(IngredientDto ingredient) {
+        Optional<Ingredient> optIngredient = ingredientRepository.findByIngredientName(ingredient.getIngredientName());
+
+        if (optIngredient.isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     private List<IngredientDto> mapListToDto(List<Ingredient> ingredients) {
