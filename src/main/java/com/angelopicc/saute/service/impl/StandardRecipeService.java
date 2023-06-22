@@ -14,7 +14,6 @@ import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
-import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -42,10 +41,10 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto createRecipe(RecipeDto recipe, long recipeBookId) {
         // 1. check if recipe book exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        checkRecipeBookExists(optRecipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
 
         if (hasNameDuplicate(recipe)) {
-            throw new DuplicateNameException("Recipe \"" + recipe.getRecipeName() + "\" already exists");
+            throw new DuplicateNameException("Recipe '" + recipe.getRecipeName() + "', already exists");
         }
         // 2. map dto to entity
         Recipe recipeEntity = mapToEntity(recipe);
@@ -60,8 +59,8 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto addRecipeToShoppingList(long recipeId, long shoppingListId) {
         Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
-        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with id: '" + recipeId + "', cannot be found");
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
 
         Recipe recipe = optRecipe.get();
         ShoppingList list = optShoppingList.get();
@@ -75,7 +74,7 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto getRecipeById(long recipeId) {
         // 1. check for recipe exists
         Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with id: '" + recipeId + "', cannot be found");
         // 2. map and return recipe
 
         return mapToDto(optRecipe.get());
@@ -85,9 +84,9 @@ public class StandardRecipeService implements RecipeService {
     public RecipeDto getRecipeByName(String recipeName, long recipeBookId) {
         // 1. check if both recipe and recipe book exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        checkRecipeBookExists(optRecipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
         Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipeName);
-        checkRecipeExists(optRecipe, "Recipe with name: \"" + recipeName + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with name: '" + recipeName + "', cannot be found");
         // 2. 
         Recipe recipe = optRecipe.get();
         // 3. add recipe book to recipe entity
@@ -101,7 +100,7 @@ public class StandardRecipeService implements RecipeService {
     @Override
     public List<RecipeDto> getAllRecipes(long recipeBookId) {
         Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
-        checkRecipeBookExists(recipeBook, "Recipe book with id: \"" + recipeBookId + "\", cannot be found");
+        checkRecipeBookExists(recipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
         RecipeBook book = recipeBook.get();
 
         List<Recipe> recipes = book.getRecipes();
@@ -115,12 +114,12 @@ public class StandardRecipeService implements RecipeService {
     @Override
     public RecipeDto updateRecipe(RecipeDto newRecipe, long oldRecipeId) {
         Optional<Recipe> oldRecipe = recipeRepository.findById(oldRecipeId);
-        checkRecipeExists(oldRecipe, "Recipe with id: \"" + oldRecipeId + "\", cannot be found");
+        checkRecipeExists(oldRecipe, "Recipe with id: '" + oldRecipeId + "', cannot be found");
 
         Recipe recipe = oldRecipe.get();
 
         if (hasNameDuplicate(newRecipe)) {
-            throw new DuplicateNameException("Ingredient \"" + newRecipe.getRecipeName() + "\" already exists");
+            throw new DuplicateNameException("Ingredient '" + newRecipe.getRecipeName() + "' already exists");
         }
         recipe.setRecipeName(newRecipe.getRecipeName());
         recipe.setDescription(newRecipe.getDescription());
@@ -132,7 +131,7 @@ public class StandardRecipeService implements RecipeService {
     @Override
     public String deleteRecipe(long recipeId) {
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(recipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkRecipeExists(recipe, "Recipe with id: '" + recipeId + "', cannot be found");
 
         recipeRepository.deleteById(recipeId);
         Optional<Recipe> deletedEntity = recipeRepository.findById(recipeId);

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
@@ -31,7 +30,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     public RecipeBookDto createRecipeBook(RecipeBookDto recipeBook) {
         // 1. check for duplicate recipe book names with helper method
         if (hasNameDuplicate(recipeBook)) {
-            throw new DuplicateNameException("There is already a recipe book with the name \"" + recipeBook.getRecipeBookName() + "\"");
+            throw new DuplicateNameException("There is already a recipe book with the name '" + recipeBook.getRecipeBookName() + "'");
         }
         // 2. map to entity
         RecipeBook recipeBookEntity = mapToEntity(recipeBook);
@@ -44,7 +43,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     @Override
     public RecipeBookDto getRecipeBookById(long recipeBookId) {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        checkEntityExists(optRecipeBook, "Recipe book with id: " + recipeBookId + ", cannot be found");
+        checkEntityExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
 
         return mapToDto(optRecipeBook.get());
     }
@@ -53,7 +52,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     public RecipeBookDto getRecipeBookByName(String recipeBookName) {
         // 1. check if entity exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBookName);
-        checkEntityExists(optRecipeBook, "Recipe book with name: \"" + recipeBookName + "\", cannot be found");
+        checkEntityExists(optRecipeBook, "Recipe book with name: '" + recipeBookName + "', cannot be found");
         // 2. map to dto and return
         return mapToDto(optRecipeBook.get());
     }
@@ -73,7 +72,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     public RecipeBookDto updateRecipeBook(RecipeBookDto newRecipeBook, long oldRecipeBookId) {
         // 1. check that entity exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(oldRecipeBookId);
-        checkEntityExists(optRecipeBook, "Recipe book with id: " + oldRecipeBookId + ", cannot be found");
+        checkEntityExists(optRecipeBook, "Recipe book with id: '" + oldRecipeBookId + "', cannot be found");
         // 2. make changes to recipe book
         RecipeBook recipeBook = optRecipeBook.get();
 
@@ -91,7 +90,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     public String deleteRecipeBook(long recipeBookId) {
         // check that entity exists
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
-        checkEntityExists(optRecipeBook, "Recipe book with id: " + recipeBookId + ", cannot be found");
+        checkEntityExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
         // delete entity
         recipeBookRepository.deleteById(recipeBookId);
         Optional<RecipeBook> deletedEntity = recipeBookRepository.findById(recipeBookId);

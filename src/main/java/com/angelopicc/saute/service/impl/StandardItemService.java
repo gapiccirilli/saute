@@ -60,7 +60,7 @@ public class StandardItemService implements ItemService {
     @Override
     public ItemDto createItemForShoppingList(ItemDto item, long shoppingListId) {
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
-        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
         Item itemEntity = mapToEntity(item);
 
         Measurement measurement = measurementService.createMeasurement(item.getAmount(), item.getMeasurementType());
@@ -75,7 +75,7 @@ public class StandardItemService implements ItemService {
     @Override
     public List<ItemDto> createItemsForRecipe(List<ItemDto> items, long recipeId) {
         Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with id: '" + recipeId + "', cannot be found");
         Recipe recipe = optRecipe.get();
 
         List<Item> itemList = items.stream().map(item -> {
@@ -94,7 +94,7 @@ public class StandardItemService implements ItemService {
     @Override
     public List<ItemDto> createItemsForShoppingList(List<ItemDto> items, long shoppingListId) {
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
-        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
         ShoppingList shoppingList = optShoppingList.get();
 
         List<Item> itemList = items.stream().map(item -> {
@@ -113,7 +113,7 @@ public class StandardItemService implements ItemService {
     @Override
     public List<ItemDto> getAllItemsByRecipe(long recipeId) {
         Optional<Recipe> optRecipe = recipeRepository.findById(recipeId);
-        checkRecipeExists(optRecipe, "Recipe with id: \"" + recipeId + "\", cannot be found");
+        checkRecipeExists(optRecipe, "Recipe with id: '" + recipeId + "', cannot be found");
 
         Recipe recipe = optRecipe.get();
         return mapListToDto(recipe.getItems());
@@ -122,7 +122,7 @@ public class StandardItemService implements ItemService {
     @Override
     public List<ItemDto> getAllItemsByShoppingList(long shoppingListId) {
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
-        checkShoppingListExists(optShoppingList, "Shopping list with id: \"" + shoppingListId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
 
         ShoppingList shoppingList = optShoppingList.get();
         return mapListToDto(shoppingList.getItems());
@@ -131,7 +131,7 @@ public class StandardItemService implements ItemService {
     @Override
     public ItemDto updateItem(ItemDto newItem, long oldItemId) {
         Optional<Item> oldItem = itemRepository.findById(oldItemId);
-        checkItemExists(oldItem, "Item with id: \"" + oldItemId + "\", cannot be found");
+        checkItemExists(oldItem, "Item with id: '" + oldItemId + "', cannot be found");
         Item item = oldItem.get();
 
         Measurement newMeasurement = item.getMeasurement();
@@ -146,7 +146,7 @@ public class StandardItemService implements ItemService {
         if (item.getIngredient().getId() != newItem.getIngredientId()) {
             Optional<Ingredient> optIngredient = ingredientRepository.findById(newItem.getIngredientId());
             if (!optIngredient.isPresent()) {
-                throw new EntityNotFoundException("Ingredient with id: \"" + newItem.getIngredientId() + "\", cannot be found");
+                throw new EntityNotFoundException("Ingredient with id: '" + newItem.getIngredientId() + "', cannot be found");
             }
             Ingredient newIngredient = optIngredient.get();
             item.setIngredient(newIngredient);
@@ -159,7 +159,7 @@ public class StandardItemService implements ItemService {
     @Override
     public String deleteItem(long itemId) {
         Optional<Item> optItem = itemRepository.findById(itemId);
-        checkItemExists(optItem, "Item with id: \"" + itemId + "\", cannot be found");
+        checkItemExists(optItem, "Item with id: '" + itemId + "', cannot be found");
 
         itemRepository.deleteById(itemId);
         Optional<Item> deletedItem = itemRepository.findById(itemId);
@@ -210,11 +210,6 @@ public class StandardItemService implements ItemService {
         dto.setMinutes(entity.getMinutes());
         dto.setSeconds(entity.getSeconds());
         return dto;
-    }
-    
-    private List<Item> mapListToEntity(List<ItemDto> dtos) {
-
-        return dtos.stream().map(dto -> mapToEntity(dto)).collect(Collectors.toList());
     }
 
     private List<ItemDto> mapListToDto(List<Item> entities) {

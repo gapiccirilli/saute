@@ -6,12 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.angelopicc.saute.entity.Recipe;
 import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
-import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.repository.ShoppingListRepository;
 import com.angelopicc.saute.service.ShoppingListService;
@@ -35,7 +33,7 @@ public class StandardShoppingListService implements ShoppingListService {
         ShoppingList shoppingListEntity = mapToEntity(shoppingList);
 
         if (hasNameDuplicate(shoppingList)) {
-            throw new DuplicateNameException("Shopping list \"" + shoppingList.getListName() + "\" already exists");
+            throw new DuplicateNameException("Shopping list '" + shoppingList.getListName() + "', already exists");
         }
 
         ShoppingList savedList = shoppingListRepository.save(shoppingListEntity);
@@ -46,7 +44,7 @@ public class StandardShoppingListService implements ShoppingListService {
     @Override
     public ShoppingListDto getShoppingListById(long shoppingListId) {
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
-        checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + shoppingListId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shoppinglist with id: '" + shoppingListId + "', cannot be found");
         ShoppingList shoppingList = optShoppingList.get();
 
         return mapToDto(shoppingList);
@@ -76,11 +74,11 @@ public class StandardShoppingListService implements ShoppingListService {
     @Override
     public ShoppingListDto updateShoppingList(ShoppingListDto newShoppingList, long oldShoppingListId) {
         Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(oldShoppingListId);
-        checkShoppingListExists(optShoppingList, "Shoppinglist with id: \"" + oldShoppingListId + "\", cannot be found");
+        checkShoppingListExists(optShoppingList, "Shoppinglist with id: '" + oldShoppingListId + "', cannot be found");
         ShoppingList shoppingList = optShoppingList.get();
 
         if (hasNameDuplicate(newShoppingList)) {
-            throw new DuplicateNameException("Ingredient \"" + newShoppingList.getListName() + "\" already exists");
+            throw new DuplicateNameException("Ingredient '" + newShoppingList.getListName() + "', already exists");
         }
 
         shoppingList.setListName(newShoppingList.getListName());
@@ -92,7 +90,7 @@ public class StandardShoppingListService implements ShoppingListService {
     @Override
     public String deleteShoppingList(long shoppingListId) {
         Optional<ShoppingList> shoppingList = shoppingListRepository.findById(shoppingListId);
-        checkShoppingListExists(shoppingList, "Shoppinglist with id: \"" + shoppingListId + "\", cannot be found");
+        checkShoppingListExists(shoppingList, "Shoppinglist with id: '" + shoppingListId + "', cannot be found");
 
         shoppingListRepository.deleteById(shoppingListId);
         Optional<ShoppingList> deletedList = shoppingListRepository.findById(shoppingListId);
@@ -127,10 +125,6 @@ public class StandardShoppingListService implements ShoppingListService {
     private ShoppingListDto mapToDto(ShoppingList entity) {
         ShoppingListDto dto = new ShoppingListDto(entity.getId(), entity.getListName());
         return dto;
-    }
-
-    private List<ShoppingList> mapListToEntity(List<ShoppingListDto> dtos) {
-        return dtos.stream().map(dto -> mapToEntity(dto)).collect(Collectors.toList());
     }
 
     private List<ShoppingListDto> mapListToDto(List<ShoppingList> entities) {
