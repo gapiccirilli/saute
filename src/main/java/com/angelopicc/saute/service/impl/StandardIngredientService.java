@@ -77,7 +77,6 @@ public class StandardIngredientService implements IngredientService {
         checkIngredientExists(optIngredient, "Ingredient with id: \"" + oldIngredientId + "\", cannot be found");
         Ingredient ingredient = optIngredient.get();
 
-        ingredient.setId(newIngredient.getId());
         ingredient.setIngredientName(newIngredient.getIngredientName());
         Ingredient savedIngredient = ingredientRepository.save(ingredient);
 

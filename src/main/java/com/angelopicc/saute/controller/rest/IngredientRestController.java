@@ -45,6 +45,11 @@ public class IngredientRestController {
         return new ResponseEntity<>(ingredientService.getIngredientByName(ingredientName), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<IngredientDto>> getAllIngredients() {
+        return new ResponseEntity<>(ingredientService.getAllIngredients(), HttpStatus.OK);
+    }
+
     @PutMapping("/{oldIngredientId}")
     public ResponseEntity<IngredientDto> updateIngredient(@RequestBody IngredientDto newIngredient, @PathVariable long oldIngredientId) {
         return new ResponseEntity<>(ingredientService.updateIngredient(newIngredient, oldIngredientId), HttpStatus.OK);
