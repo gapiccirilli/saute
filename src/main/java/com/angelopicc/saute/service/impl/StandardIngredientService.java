@@ -124,7 +124,6 @@ public class StandardIngredientService implements IngredientService {
     
     private Ingredient mapToEntity(IngredientDto dto) {
         Ingredient entity = new Ingredient();
-        entity.setId(dto.getId());
         entity.setIngredientName(dto.getIngredientName());
 
         return entity;

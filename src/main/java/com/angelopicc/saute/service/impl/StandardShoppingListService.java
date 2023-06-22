@@ -99,7 +99,6 @@ public class StandardShoppingListService implements ShoppingListService {
     
     private ShoppingList mapToEntity(ShoppingListDto dto) {
         ShoppingList shoppingList = new ShoppingList();
-        shoppingList.setId(dto.getId());
         shoppingList.setListName(dto.getListName());
         return shoppingList;
     }

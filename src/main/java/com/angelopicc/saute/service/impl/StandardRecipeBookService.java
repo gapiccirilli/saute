@@ -121,7 +121,7 @@ public class StandardRecipeBookService implements RecipeBookService {
     private List<RecipeBookDto> mapListToDto(List<RecipeBook> entityList) {
         return entityList.stream()
         .map(book -> {
-            RecipeBookDto dto = new RecipeBookDto(book.getId(), book.getRecipeBookName());
+            RecipeBookDto dto = mapToDto(book);
             return dto;
         })
         .collect(Collectors.toList());
@@ -129,7 +129,6 @@ public class StandardRecipeBookService implements RecipeBookService {
 
     private RecipeBook mapToEntity(RecipeBookDto dto) {
         RecipeBook recipeBook = new RecipeBook();
-        recipeBook.setId(dto.getId());
         recipeBook.setRecipeBookName(dto.getRecipeBookName());
         return recipeBook;
     }

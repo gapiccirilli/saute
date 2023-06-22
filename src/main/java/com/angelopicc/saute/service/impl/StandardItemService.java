@@ -192,7 +192,6 @@ public class StandardItemService implements ItemService {
 
     private Item mapToEntity(ItemDto dto) {
         Item item = new Item();
-        item.setId(dto.getId());
         item.setHours(dto.getHours());
         item.setMinutes(dto.getMinutes());
         item.setSeconds(dto.getSeconds());

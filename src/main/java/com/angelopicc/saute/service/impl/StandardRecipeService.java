@@ -103,7 +103,7 @@ public class StandardRecipeService implements RecipeService {
             throw new NoRecipesFoundException(NO_RECIPES_FOUND);
         }
 
-        return mapListTDtos(recipes);
+        return mapListToDtos(recipes);
     }
 
     @Override
@@ -154,10 +154,10 @@ public class StandardRecipeService implements RecipeService {
         }
     }
 
-    private List<RecipeDto> mapListTDtos(List<Recipe> recipes) {
+    private List<RecipeDto> mapListToDtos(List<Recipe> recipes) {
         return recipes.stream()
                 .map(recipe -> {
-                    RecipeDto dto = new RecipeDto(recipe.getId(), recipe.getRecipeName(), recipe.getDescription());
+                    RecipeDto dto = mapToDto(recipe);
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -165,7 +165,6 @@ public class StandardRecipeService implements RecipeService {
 
     private Recipe mapToEntity(RecipeDto dto) {
         Recipe recipe = new Recipe();
-        recipe.setId(dto.getId());
         recipe.setRecipeName(dto.getRecipeName());
         recipe.setDescription(dto.getDescription());
         return recipe;
