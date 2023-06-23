@@ -81,20 +81,17 @@ public class StandardRecipeService implements RecipeService {
     }
 
     @Override
-    public RecipeDto getRecipeByName(String recipeName, long recipeBookId) {
-        // 1. check if both recipe and recipe book exists
+    public List<RecipeDto> getRecipeByName(String recipeName, long recipeBookId) {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
-        Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipeName);
-        checkRecipeExists(optRecipe, "Recipe with name: '" + recipeName + "', cannot be found");
-        // 2. 
-        Recipe recipe = optRecipe.get();
-        // 3. add recipe book to recipe entity
-        recipe.setRecipeBook(optRecipeBook.get());
-        // 4. save recipe to db and return mapped entity
-        Recipe savedRecipe = recipeRepository.save(recipe);
+        
+        List<Recipe> searchedRecipes = recipeRepository.findByRecipeNameAndRecipeBookIdStartingWith(recipeName, recipeBookId);
 
-        return mapToDto(savedRecipe);
+        if (searchedRecipes.isEmpty() || searchedRecipes == null) {
+            throw new NoRecipesFoundException(NO_RECIPES_FOUND);
+        }
+
+        return mapListToDtos(searchedRecipes);
     }
 
     @Override

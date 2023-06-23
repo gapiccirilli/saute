@@ -27,7 +27,7 @@ public class RecipeRestController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipebooks/{recipeBookId}/recipes")
+    @PostMapping("/recipe-books/{recipeBookId}/recipes")
     public ResponseEntity<RecipeDto> createRecipe(@RequestBody RecipeDto recipe, @PathVariable long recipeBookId) {
 
         return new ResponseEntity<>(recipeService.createRecipe(recipe, recipeBookId), HttpStatus.CREATED);
@@ -39,12 +39,12 @@ public class RecipeRestController {
         return new ResponseEntity<>(recipeService.getRecipeById(recipeId), HttpStatus.OK);
     }
 
-    @GetMapping("recipes/{recipeId}/search")
-    public ResponseEntity<RecipeDto> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeId) {
-        return new ResponseEntity<RecipeDto>(recipeService.getRecipeByName(recipeName, recipeId), HttpStatus.OK);
+    @GetMapping("/recipe-books/{recipeBookId}/recipes/search")
+    public ResponseEntity<RecipeDto> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeBookId) {
+        return new ResponseEntity<RecipeDto>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
     }
 
-    @GetMapping("/recipebooks/{recipeBookId}/recipes")
+    @GetMapping("/recipe-books/{recipeBookId}/recipes")
     public ResponseEntity<List<RecipeDto>> getAllRecipes(@PathVariable long recipeBookId) {
         return new ResponseEntity<>(recipeService.getAllRecipes(recipeBookId), HttpStatus.OK);
     }
