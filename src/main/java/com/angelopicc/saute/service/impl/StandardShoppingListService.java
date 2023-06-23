@@ -101,6 +101,10 @@ public class StandardShoppingListService implements ShoppingListService {
         return DELETE_SUCCESSFUL;
     }
 
+    // ---------------------------------------------------------------------------------------------------------------|
+
+    // ---------------------------------------------------------------------------------------------------------------|
+
     private void checkShoppingListExists(Optional<ShoppingList> shoppingList, String failMessage) {
         if (!shoppingList.isPresent()) {
             throw new EntityNotFoundException(failMessage);

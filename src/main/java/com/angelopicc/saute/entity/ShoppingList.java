@@ -80,6 +80,10 @@ public class ShoppingList {
         this.items = items;
     }
 
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
     @Override
     public String toString() {
         return "ShoppingList [id=" + id + ", listName=" + listName + ", recipes=" + recipes + ", items=" + items + "]";

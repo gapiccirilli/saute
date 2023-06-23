@@ -64,6 +64,10 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = optRecipe.get();
         ShoppingList list = optShoppingList.get();
+
+        list.addRecipe(recipe);
+        shoppingListRepository.save(list);
+
         recipe.addShoppingList(list);
         Recipe savedRecipe = recipeRepository.save(recipe);
 
