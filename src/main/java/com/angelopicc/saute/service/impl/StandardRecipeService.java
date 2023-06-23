@@ -43,7 +43,7 @@ public class StandardRecipeService implements RecipeService {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
 
-        if (hasNameDuplicate(recipe, recipeBookId)) {
+        if (hasNameDuplicateForCreation(recipe, recipeBookId)) {
             throw new DuplicateNameException("Recipe '" + recipe.getRecipeName() + "', already exists");
         }
         // 2. map dto to entity
@@ -115,7 +115,7 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = oldRecipe.get();
 
-        if (hasNameDuplicate(newRecipe, recipe.getRecipeBook().getId())) {
+        if (hasNameDuplicateForUpdate(newRecipe, recipe.getRecipeBook().getId())) {
             throw new DuplicateNameException("Recipe '" + newRecipe.getRecipeName() + "' already exists");
         }
         recipe.setRecipeName(newRecipe.getRecipeName());
@@ -160,7 +160,20 @@ public class StandardRecipeService implements RecipeService {
         }
     }
 
-    private boolean hasNameDuplicate(RecipeDto recipe, long recipeBookId) {
+    private boolean hasNameDuplicateForUpdate(RecipeDto recipe, long recipeBookId) {
+        // Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
+        Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
+        List<Recipe> recipes = recipeBook.get().getRecipes();
+
+        for (Recipe recipeElement : recipes) {
+            if (recipe.getRecipeName().equals(recipeElement.getRecipeName()) && (recipe.getId() != recipeElement.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasNameDuplicateForCreation(RecipeDto recipe, long recipeBookId) {
         // Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
         Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
         List<Recipe> recipes = recipeBook.get().getRecipes();
