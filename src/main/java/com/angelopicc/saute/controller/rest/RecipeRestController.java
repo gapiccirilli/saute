@@ -33,6 +33,11 @@ public class RecipeRestController {
         return new ResponseEntity<>(recipeService.createRecipe(recipe, recipeBookId), HttpStatus.CREATED);
     }
 
+    @PostMapping("/shopping-lists/{shoppingListId}/recipes/{recipeId}")
+    public ResponseEntity<RecipeDto> addRecipeToShoppingList(@PathVariable long recipeId, @PathVariable long shoppingListId) {
+        return new ResponseEntity<>(recipeService.addRecipeToShoppingList(recipeId, shoppingListId), HttpStatus.OK);
+    }   
+
     @GetMapping("/recipes/{recipeId}")
     public ResponseEntity<RecipeDto> getRecipeById(@PathVariable long recipeId) {
 
@@ -40,8 +45,8 @@ public class RecipeRestController {
     }
 
     @GetMapping("/recipe-books/{recipeBookId}/recipes/search")
-    public ResponseEntity<RecipeDto> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeBookId) {
-        return new ResponseEntity<RecipeDto>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
+    public ResponseEntity<List<RecipeDto>> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeBookId) {
+        return new ResponseEntity<>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
     }
 
     @GetMapping("/recipe-books/{recipeBookId}/recipes")
