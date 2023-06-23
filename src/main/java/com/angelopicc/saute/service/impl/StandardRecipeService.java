@@ -43,7 +43,7 @@ public class StandardRecipeService implements RecipeService {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
 
-        if (hasNameDuplicate(recipe)) {
+        if (hasNameDuplicate(recipe, recipeBookId)) {
             throw new DuplicateNameException("Recipe '" + recipe.getRecipeName() + "', already exists");
         }
         // 2. map dto to entity
@@ -85,7 +85,7 @@ public class StandardRecipeService implements RecipeService {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
         
-        List<Recipe> searchedRecipes = recipeRepository.findByRecipeNameAndRecipeBookIdStartingWith(recipeName, recipeBookId);
+        List<Recipe> searchedRecipes = recipeRepository.findByRecipeBookIdAndRecipeNameStartingWith(recipeBookId, recipeName);
 
         if (searchedRecipes.isEmpty() || searchedRecipes == null) {
             throw new NoRecipesFoundException(NO_RECIPES_FOUND);
@@ -115,7 +115,7 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = oldRecipe.get();
 
-        if (hasNameDuplicate(newRecipe)) {
+        if (hasNameDuplicate(newRecipe, recipe.getRecipeBook().getId())) {
             throw new DuplicateNameException("Recipe '" + newRecipe.getRecipeName() + "' already exists");
         }
         recipe.setRecipeName(newRecipe.getRecipeName());
@@ -160,11 +160,15 @@ public class StandardRecipeService implements RecipeService {
         }
     }
 
-    private boolean hasNameDuplicate(RecipeDto recipe) {
-        Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
+    private boolean hasNameDuplicate(RecipeDto recipe, long recipeBookId) {
+        // Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
+        Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
+        List<Recipe> recipes = recipeBook.get().getRecipes();
 
-        if (optRecipe.isPresent()) {
-            return true;
+        for (Recipe recipeElement : recipes) {
+            if (recipe.getRecipeName().equals(recipeElement.getRecipeName())) {
+                return true;
+            }
         }
         return false;
     }
