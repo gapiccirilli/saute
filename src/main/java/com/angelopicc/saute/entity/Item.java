@@ -24,6 +24,8 @@ public class Item {
 
     private int seconds;
 
+    private String description;
+
     @ManyToOne
     private Ingredient ingredient;
 
@@ -38,12 +40,13 @@ public class Item {
     @JoinColumn(name = "list_id")
     private ShoppingList shoppingList;
 
-    public Item(long id, int hours, int minutes, int seconds, Ingredient ingredient, Measurement measurement,
-            Recipe recipe, ShoppingList shoppingList) {
+    public Item(long id, int hours, int minutes, int seconds, String description, Ingredient ingredient,
+            Measurement measurement, Recipe recipe, ShoppingList shoppingList) {
         this.id = id;
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
+        this.description = description;
         this.ingredient = ingredient;
         this.measurement = measurement;
         this.recipe = recipe;
@@ -117,10 +120,18 @@ public class Item {
         this.shoppingList = shoppingList;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return "Item [id=" + id + ", hours=" + hours + ", minutes=" + minutes + ", seconds=" + seconds + ", ingredient="
-                + ingredient + ", measurement=" + measurement + ", recipe=" + recipe + ", shoppingList=" + shoppingList
-                + "]";
+        return "Item [id=" + id + ", hours=" + hours + ", minutes=" + minutes + ", seconds=" + seconds
+                + ", description=" + description + ", ingredient=" + ingredient + ", measurement=" + measurement
+                + ", recipe=" + recipe + ", shoppingList=" + shoppingList + "]";
     }
 }

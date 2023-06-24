@@ -5,17 +5,19 @@ public class ItemDto {
     private long id;
     private long ingredientId;
     private String ingredientName;
+    private String description;
     private double amount;
     private String measurementType;
     private int hours;
     private int minutes;
     private int seconds;
 
-    public ItemDto(long id, long ingredientId, String ingredientName, double amount, String measurementType, int hours,
-            int minutes, int seconds) {
+    public ItemDto(long id, long ingredientId, String ingredientName, String description, double amount,
+            String measurementType, int hours, int minutes, int seconds) {
         this.id = id;
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
+        this.description = description;
         this.amount = amount;
         this.measurementType = measurementType;
         this.hours = hours;
@@ -90,10 +92,18 @@ public class ItemDto {
         this.ingredientName = ingredientName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "ItemDto [id=" + id + ", ingredientId=" + ingredientId + ", ingredientName=" + ingredientName
-                + ", amount=" + amount + ", measurementType=" + measurementType + ", hours=" + hours + ", minutes="
-                + minutes + ", seconds=" + seconds + "]";
+                + ", description=" + description + ", amount=" + amount + ", measurementType=" + measurementType
+                + ", hours=" + hours + ", minutes=" + minutes + ", seconds=" + seconds + "]";
     }
 }
