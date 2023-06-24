@@ -32,8 +32,7 @@ public class Recipe {
     cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
-    CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

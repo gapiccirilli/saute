@@ -34,8 +34,7 @@ public class ShoppingList {
 
     // this is for additional ingredients
     
-    @OneToMany(mappedBy = "shoppingList", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
-    CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "shoppingList", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
     public ShoppingList() {
