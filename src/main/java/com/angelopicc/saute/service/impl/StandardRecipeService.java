@@ -99,6 +99,20 @@ public class StandardRecipeService implements RecipeService {
     }
 
     @Override
+    public List<RecipeDto> getRecipesByShoppingList(long shoppingListId) {
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
+        ShoppingList list = optShoppingList.get();
+
+        List<Recipe> recipes = list.getRecipes();
+        if (recipes.isEmpty() || recipes == null) {
+            throw new NoRecipesFoundException(NO_RECIPES_FOUND);
+        }
+
+        return mapListToDtos(recipes);
+    }
+
+    @Override
     public List<RecipeDto> getAllRecipes(long recipeBookId) {
         Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(recipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");

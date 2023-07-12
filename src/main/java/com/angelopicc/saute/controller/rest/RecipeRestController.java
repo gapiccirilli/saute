@@ -51,6 +51,11 @@ public class RecipeRestController {
         return new ResponseEntity<>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
     }
 
+    @GetMapping("/shopping-lists/{shoppingListId}/recipes")
+    public ResponseEntity<List<RecipeDto>> getRecipesByShoppingList(@PathVariable long shoppingListId) {
+        return new ResponseEntity<>(recipeService.getRecipesByShoppingList(shoppingListId), HttpStatus.OK);
+    }
+
     @GetMapping("/recipe-books/{recipeBookId}/recipes")
     public ResponseEntity<List<RecipeDto>> getAllRecipes(@PathVariable long recipeBookId) {
         return new ResponseEntity<>(recipeService.getAllRecipes(recipeBookId), HttpStatus.OK);
