@@ -66,6 +66,11 @@ public class RecipeRestController {
         return new ResponseEntity<>(recipeService.updateRecipe(newRecipe, oldRecipeId), HttpStatus.OK);
     }
 
+    @DeleteMapping("/shopping-lists/{shoppingListId}/recipes/{recipeId}")
+    public ResponseEntity<String> removeRecipeFromShoppingList(@PathVariable long recipeId, @PathVariable long shoppingListId) {
+        return new ResponseEntity<>(recipeService.removeRecipeFromShoppingList(recipeId, shoppingListId), HttpStatus.OK);
+    }
+
     @DeleteMapping("/recipes/{recipeId}")
     public ResponseEntity<String> deleteRecipe(@PathVariable long recipeId) {
         return new ResponseEntity<>(recipeService.deleteRecipe(recipeId), HttpStatus.OK);

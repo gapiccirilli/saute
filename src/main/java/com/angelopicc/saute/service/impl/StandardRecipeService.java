@@ -14,6 +14,7 @@ import com.angelopicc.saute.entity.ShoppingList;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
+import com.angelopicc.saute.exception.RecipeAlreadyExists;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.repository.RecipeRepository;
@@ -64,6 +65,12 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = optRecipe.get();
         ShoppingList list = optShoppingList.get();
+
+        long count = list.getRecipes().stream().filter(item -> item.getId() == recipeId).count();
+
+        if (count > 0) {
+            throw new RecipeAlreadyExists("Recipe with id: '" + recipeId + "', already exists in List with id: " +shoppingListId);
+        }
 
         list.addRecipe(recipe);
         shoppingListRepository.save(list);
@@ -141,6 +148,21 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe updatedRecipe = recipeRepository.save(recipe);
         return mapToDto(updatedRecipe);
+    }
+
+    @Override
+    public String removeRecipeFromShoppingList(long recipeId, long shoppingListId) {
+        Optional<ShoppingList> optShoppingList = shoppingListRepository.findById(shoppingListId);
+        checkShoppingListExists(optShoppingList, "Shopping list with id: '" + shoppingListId + "', cannot be found");
+        ShoppingList list = optShoppingList.get();
+
+        List<Recipe> newRecipeList = list.getRecipes().stream().filter(recipe -> recipe.getId() != recipeId)
+        .collect(Collectors.toList());
+
+        list.setRecipes(newRecipeList);
+        shoppingListRepository.save(list);
+
+        return DELETE_SUCCESSFUL;
     }
 
     @Override

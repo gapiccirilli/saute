@@ -16,6 +16,7 @@ import com.angelopicc.saute.exception.DuplicateNameException;
 import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
+import com.angelopicc.saute.exception.RecipeAlreadyExists;
 import com.angelopicc.saute.payload.Error;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -65,6 +66,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Error> handleEntityNotFoundException(EntityNotFoundException exception, WebRequest request) {
+        Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
+        request.getDescription(false));
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RecipeAlreadyExists.class)
+    public ResponseEntity<Error> handleRecipeAlreadyExistsException(Exception exception, WebRequest request) {
         Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
         request.getDescription(false));
 

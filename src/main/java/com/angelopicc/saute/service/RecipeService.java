@@ -13,5 +13,6 @@ public interface RecipeService {
     List<RecipeDto> getRecipesByShoppingList(long shoppingListId);
     List<RecipeDto> getAllRecipes(long recipeBookId);
     RecipeDto updateRecipe(RecipeDto newRecipe, long oldRecipeId);
+    String removeRecipeFromShoppingList(long recipeId, long shoppingListId);
     String deleteRecipe(long recipeId);
 }
