@@ -56,7 +56,6 @@ public class GlobalSearchService implements SearchService<Object>{
             searchItems.addAll(shoppingLists);
         }
 
-
-        return null;
+        return searchItems;
     }
 }
