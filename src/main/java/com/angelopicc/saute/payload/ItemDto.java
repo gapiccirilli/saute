@@ -12,7 +12,7 @@ public class ItemDto {
     private int minutes;
     private int seconds;
 
-    private static final String type = "Item";
+    private final String type = "Item";
 
     public ItemDto(long id, long ingredientId, String ingredientName, String description, double amount,
             String measurementType, int hours, int minutes, int seconds) {
@@ -100,6 +100,10 @@ public class ItemDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

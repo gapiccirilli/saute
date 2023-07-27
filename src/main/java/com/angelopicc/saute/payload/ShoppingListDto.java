@@ -6,7 +6,7 @@ public class ShoppingListDto {
     private long id;
     private String listName;
 
-    private static final String type = "Shopping List";
+    private final String type = "Shopping List";
     
     public ShoppingListDto() {
     }
@@ -30,6 +30,10 @@ public class ShoppingListDto {
 
     public void setListName(String listName) {
         this.listName = listName;
+    }
+    
+    public String getType() {
+        return type;
     }
 
     @Override

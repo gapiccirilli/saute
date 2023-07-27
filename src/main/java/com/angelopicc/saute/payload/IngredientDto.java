@@ -8,7 +8,7 @@ public class IngredientDto {
     // this number represents number of recipes this ingredient is in
     private int numberOfRecipes;
 
-    private static final String type = "Ingredient";
+    private final String type = "Ingredient";
 
     public IngredientDto() {
 
@@ -42,6 +42,10 @@ public class IngredientDto {
 
     public void setNumberOfRecipes(int numberOfRecipes) {
         this.numberOfRecipes = numberOfRecipes;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

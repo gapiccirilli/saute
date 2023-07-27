@@ -5,7 +5,7 @@ public class RecipeBookDto {
     private long id;
     private String recipeBookName;
 
-    private static final String type = "Recipe Book";
+    private final String type = "Recipe Book";
     
     public RecipeBookDto() {
     }
@@ -29,6 +29,10 @@ public class RecipeBookDto {
 
     public void setRecipeBookName(String recipeBookName) {
         this.recipeBookName = recipeBookName;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

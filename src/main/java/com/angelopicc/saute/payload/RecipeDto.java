@@ -7,7 +7,7 @@ public class RecipeDto {
     private String recipeName;
     private String description;
 
-    private static final String type = "Recipe";
+    private final String type = "Recipe";
     
     public RecipeDto(long id, String recipeName, String description) {
         this.id = id;
@@ -40,6 +40,10 @@ public class RecipeDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
