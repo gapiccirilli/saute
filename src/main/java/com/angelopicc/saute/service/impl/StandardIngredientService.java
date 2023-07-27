@@ -55,7 +55,7 @@ public class StandardIngredientService implements IngredientService {
         // use this method/endpoint for searching through ingredients
         List<Ingredient> searchedIngredients = ingredientRepository.findByIngredientNameStartingWith(ingredientName);
 
-        if (searchedIngredients.isEmpty() || searchedIngredients == null) {
+        if (searchedIngredients.isEmpty()) {
             throw new NoIngredientsFoundException(NO_INGREDIENTS_FOUND);
         }
         return mapListToDto(searchedIngredients);

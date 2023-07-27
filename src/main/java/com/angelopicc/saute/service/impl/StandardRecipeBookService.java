@@ -6,14 +6,18 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.angelopicc.saute.entity.Ingredient;
 import com.angelopicc.saute.entity.RecipeBook;
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
+import com.angelopicc.saute.exception.NoBooksFoundException;
+import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.payload.RecipeBookDto;
 import com.angelopicc.saute.repository.RecipeBookRepository;
 import com.angelopicc.saute.service.RecipeBookService;
 import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
+import static com.angelopicc.saute.utility.message.StatusMessage.NO_BOOKS_FOUND;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -49,12 +53,13 @@ public class StandardRecipeBookService implements RecipeBookService {
     }
 
     @Override
-    public RecipeBookDto getRecipeBookByName(String recipeBookName) {
-        // 1. check if entity exists
-        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBookName);
-        checkEntityExists(optRecipeBook, "Recipe book with name: '" + recipeBookName + "', cannot be found");
-        // 2. map to dto and return
-        return mapToDto(optRecipeBook.get());
+    public List<RecipeBookDto> getRecipeBookByName(String recipeBookName) {
+       List<RecipeBook> searchedRecipeBooks = recipeBookRepository.findByRecipeBookNameStartingWith(recipeBookName);
+
+        if (searchedRecipeBooks.isEmpty()) {
+            throw new NoBooksFoundException(NO_BOOKS_FOUND);
+        }
+        return mapListToDto(searchedRecipeBooks);
     }
 
     @Override
@@ -106,9 +111,9 @@ public class StandardRecipeBookService implements RecipeBookService {
     // ------------------------------------------------------------------------------------------------------------|
 
     private boolean hasNameDuplicate(RecipeBookDto recipeBook) {
-        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBook.getRecipeBookName());
+        List<RecipeBook> recipeBooks = recipeBookRepository.findByRecipeBookNameStartingWith(recipeBook.getRecipeBookName());
 
-        if (optRecipeBook.isPresent()) {
+        if (!recipeBooks.isEmpty()) {
             return true;
         }
         return false;

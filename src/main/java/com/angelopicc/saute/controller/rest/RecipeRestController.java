@@ -51,6 +51,11 @@ public class RecipeRestController {
         return new ResponseEntity<>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
     }
 
+    @GetMapping("/recipes/search")
+    public ResponseEntity<List<RecipeDto>> getRecipeByName(@RequestParam String recipeName) {
+        return new ResponseEntity<>(recipeService.getRecipeByName(recipeName), HttpStatus.OK);
+    }
+
     @GetMapping("/shopping-lists/{shoppingListId}/recipes")
     public ResponseEntity<List<RecipeDto>> getRecipesByShoppingList(@PathVariable long shoppingListId) {
         return new ResponseEntity<>(recipeService.getRecipesByShoppingList(shoppingListId), HttpStatus.OK);

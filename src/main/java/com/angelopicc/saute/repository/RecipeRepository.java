@@ -12,4 +12,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     
     Optional<Recipe> findByRecipeName(String recipeName);
     List<Recipe> findByRecipeBookIdAndRecipeNameStartingWith(long recipeBookId, String search);
+    List<Recipe> findByRecipeNameStartingWith(String search);
 }

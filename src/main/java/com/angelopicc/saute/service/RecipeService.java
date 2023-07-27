@@ -10,6 +10,7 @@ public interface RecipeService {
     RecipeDto addRecipeToShoppingList(long recipeId, long shoppingListId);
     RecipeDto getRecipeById(long recipeId);
     List<RecipeDto> getRecipeByName(String recipeName, long recipeBookId);
+    List<RecipeDto> getRecipeByName(String recipeName);
     List<RecipeDto> getRecipesByShoppingList(long shoppingListId);
     List<RecipeDto> getAllRecipes(long recipeBookId);
     RecipeDto updateRecipe(RecipeDto newRecipe, long oldRecipeId);

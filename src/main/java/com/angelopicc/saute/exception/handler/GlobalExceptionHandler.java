@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.angelopicc.saute.exception.DeleteFailedException;
 import com.angelopicc.saute.exception.DuplicateNameException;
+import com.angelopicc.saute.exception.NoBooksFoundException;
 import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
@@ -42,6 +43,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoIngredientsFoundException.class)
     public ResponseEntity<Error> handleNoIngredientsFoundException(NoIngredientsFoundException exception, WebRequest request) {
+        Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
+        request.getDescription(false));
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoBooksFoundException.class)
+    public ResponseEntity<Error> handleNoBooksFoundException(NoBooksFoundException exception, WebRequest request) {
         Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
         request.getDescription(false));
 
