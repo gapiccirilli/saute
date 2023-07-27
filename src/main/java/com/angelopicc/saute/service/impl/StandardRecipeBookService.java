@@ -53,12 +53,12 @@ public class StandardRecipeBookService implements RecipeBookService {
     }
 
     @Override
-    public List<RecipeBookDto> getRecipeBookByName(String recipeBookName) {
+    public List<RecipeBookDto> getRecipeBooksByName(String recipeBookName) {
        List<RecipeBook> searchedRecipeBooks = recipeBookRepository.findByRecipeBookNameStartingWith(recipeBookName);
 
-        if (searchedRecipeBooks.isEmpty()) {
-            throw new NoBooksFoundException(NO_BOOKS_FOUND);
-        }
+        // if (searchedRecipeBooks.isEmpty()) {
+        //     throw new NoBooksFoundException(NO_BOOKS_FOUND);
+        // }
         return mapListToDto(searchedRecipeBooks);
     }
 

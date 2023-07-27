@@ -42,8 +42,8 @@ public class IngredientRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<IngredientDto>> getIngredientByName(@RequestParam String ingredientName) {
-        return new ResponseEntity<>(ingredientService.getIngredientByName(ingredientName), HttpStatus.OK);
+    public ResponseEntity<List<IngredientDto>> getIngredientsByName(@RequestParam String ingredientName) {
+        return new ResponseEntity<>(ingredientService.getIngredientsByName(ingredientName), HttpStatus.OK);
     }
 
     @GetMapping

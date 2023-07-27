@@ -5,6 +5,8 @@ public class ShoppingListDto {
     
     private long id;
     private String listName;
+
+    private static final String type = "Shopping List";
     
     public ShoppingListDto() {
     }

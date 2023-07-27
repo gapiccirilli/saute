@@ -4,6 +4,8 @@ public class RecipeBookDto {
     
     private long id;
     private String recipeBookName;
+
+    private static final String type = "Recipe Book";
     
     public RecipeBookDto() {
     }

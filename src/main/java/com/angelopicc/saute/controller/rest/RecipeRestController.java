@@ -47,13 +47,13 @@ public class RecipeRestController {
     }
 
     @GetMapping("/recipe-books/{recipeBookId}/recipes/search")
-    public ResponseEntity<List<RecipeDto>> getRecipeByName(@RequestParam String recipeName, @PathVariable long recipeBookId) {
-        return new ResponseEntity<>(recipeService.getRecipeByName(recipeName, recipeBookId), HttpStatus.OK);
+    public ResponseEntity<List<RecipeDto>> getRecipesByName(@RequestParam String recipeName, @PathVariable long recipeBookId) {
+        return new ResponseEntity<>(recipeService.getRecipesByName(recipeName, recipeBookId), HttpStatus.OK);
     }
 
     @GetMapping("/recipes/search")
-    public ResponseEntity<List<RecipeDto>> getRecipeByName(@RequestParam String recipeName) {
-        return new ResponseEntity<>(recipeService.getRecipeByName(recipeName), HttpStatus.OK);
+    public ResponseEntity<List<RecipeDto>> getRecipesByName(@RequestParam String recipeName) {
+        return new ResponseEntity<>(recipeService.getRecipesByName(recipeName), HttpStatus.OK);
     }
 
     @GetMapping("/shopping-lists/{shoppingListId}/recipes")

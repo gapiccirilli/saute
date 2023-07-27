@@ -51,13 +51,13 @@ public class StandardShoppingListService implements ShoppingListService {
     }
 
     @Override
-    public List<ShoppingListDto> getShoppingListByName(String shoppingListName) {
+    public List<ShoppingListDto> getShoppingListsByName(String shoppingListName) {
         // for searching
         List<ShoppingList> shoppingLists = shoppingListRepository.findByListNameStartingWith(shoppingListName);
 
-        if (shoppingLists.isEmpty()) {
-            throw new NoShoppingListsFoundException(NO_SHOPPING_LISTS_FOUND);
-        }
+        // if (shoppingLists.isEmpty()) {
+        //     throw new NoShoppingListsFoundException(NO_SHOPPING_LISTS_FOUND);
+        // }
         return mapListToDto(shoppingLists);
     }
 

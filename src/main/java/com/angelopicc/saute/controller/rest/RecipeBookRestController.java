@@ -42,8 +42,8 @@ public class RecipeBookRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<RecipeBookDto>> getRecipeBookByName(@RequestParam String recipeBookName) {
-        return new ResponseEntity<>(recipeBookService.getRecipeBookByName(recipeBookName), HttpStatus.OK);
+    public ResponseEntity<List<RecipeBookDto>> getRecipeBooksByName(@RequestParam String recipeBookName) {
+        return new ResponseEntity<>(recipeBookService.getRecipeBooksByName(recipeBookName), HttpStatus.OK);
     }
 
     @GetMapping

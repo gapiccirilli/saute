@@ -6,6 +6,8 @@ public class RecipeDto {
     private long id;
     private String recipeName;
     private String description;
+
+    private static final String type = "Recipe";
     
     public RecipeDto(long id, String recipeName, String description) {
         this.id = id;

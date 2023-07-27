@@ -8,6 +8,8 @@ public class IngredientDto {
     // this number represents number of recipes this ingredient is in
     private int numberOfRecipes;
 
+    private static final String type = "Ingredient";
+
     public IngredientDto() {
 
     }

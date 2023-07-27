@@ -92,7 +92,7 @@ public class StandardRecipeService implements RecipeService {
     }
 
     @Override
-    public List<RecipeDto> getRecipeByName(String recipeName, long recipeBookId) {
+    public List<RecipeDto> getRecipesByName(String recipeName, long recipeBookId) {
         Optional<RecipeBook> optRecipeBook = recipeBookRepository.findById(recipeBookId);
         checkRecipeBookExists(optRecipeBook, "Recipe book with id: '" + recipeBookId + "', cannot be found");
         
@@ -106,12 +106,12 @@ public class StandardRecipeService implements RecipeService {
     }
 
     @Override
-    public List<RecipeDto> getRecipeByName(String recipeName) {
+    public List<RecipeDto> getRecipesByName(String recipeName) {
         List<Recipe> searchedRecipes = recipeRepository.findByRecipeNameStartingWith(recipeName);
 
-        if (searchedRecipes.isEmpty()) {
-            throw new NoRecipesFoundException(NO_RECIPES_FOUND);
-        }
+        // if (searchedRecipes.isEmpty()) {
+        //     throw new NoRecipesFoundException(NO_RECIPES_FOUND);
+        // }
 
         return mapListToDtos(searchedRecipes);
     }

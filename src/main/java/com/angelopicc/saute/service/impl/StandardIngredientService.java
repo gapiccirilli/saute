@@ -51,13 +51,13 @@ public class StandardIngredientService implements IngredientService {
     }
 
     @Override
-    public List<IngredientDto> getIngredientByName(String ingredientName) {
+    public List<IngredientDto> getIngredientsByName(String ingredientName) {
         // use this method/endpoint for searching through ingredients
         List<Ingredient> searchedIngredients = ingredientRepository.findByIngredientNameStartingWith(ingredientName);
 
-        if (searchedIngredients.isEmpty()) {
-            throw new NoIngredientsFoundException(NO_INGREDIENTS_FOUND);
-        }
+        // if (searchedIngredients.isEmpty()) {
+        //     throw new NoIngredientsFoundException(NO_INGREDIENTS_FOUND);
+        // }
         return mapListToDto(searchedIngredients);
     }
 
