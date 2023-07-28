@@ -115,7 +115,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Recipe [id=" + id + ", recipeName=" + recipeName + ", description=" + description + ", image=" + image
-                + ", shoppingLists=" + shoppingLists + ", items=" + items + ", recipeBook=" + recipeBook + "]";
+        return "Recipe [id=" + id + ", recipeName=" + recipeName + ", description=" + description + ", image=" + image + "]";
     }
 }

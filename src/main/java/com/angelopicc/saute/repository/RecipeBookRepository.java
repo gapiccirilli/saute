@@ -10,4 +10,5 @@ import com.angelopicc.saute.entity.RecipeBook;
 public interface RecipeBookRepository extends JpaRepository<RecipeBook, Long> {
     
     List<RecipeBook> findByRecipeBookNameStartingWith(String search);
+    Optional<RecipeBook> findByRecipeBookName(String recipeBookName);
 }

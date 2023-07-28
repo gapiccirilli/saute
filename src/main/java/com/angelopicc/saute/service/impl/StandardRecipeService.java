@@ -151,12 +151,13 @@ public class StandardRecipeService implements RecipeService {
 
         Recipe recipe = oldRecipe.get();
 
-        if (hasNameDuplicateForUpdate(newRecipe, recipe.getRecipeBook().getId())) {
+        if (hasNameDuplicateForUpdate(newRecipe, recipe.getRecipeBook())) {
             throw new DuplicateNameException("Recipe '" + newRecipe.getRecipeName() + "' already exists");
         }
+
         recipe.setRecipeName(newRecipe.getRecipeName());
         recipe.setDescription(newRecipe.getDescription());
-
+        
         Recipe updatedRecipe = recipeRepository.save(recipe);
         return mapToDto(updatedRecipe);
     }
@@ -211,12 +212,13 @@ public class StandardRecipeService implements RecipeService {
         }
     }
 
-    private boolean hasNameDuplicateForUpdate(RecipeDto recipe, long recipeBookId) {
+    private boolean hasNameDuplicateForUpdate(RecipeDto recipe, RecipeBook recipeBook) {
         // Optional<Recipe> optRecipe = recipeRepository.findByRecipeName(recipe.getRecipeName());
-        Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
-        List<Recipe> recipes = recipeBook.get().getRecipes();
-
+        // Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
+        List<Recipe> recipes = recipeBook.getRecipes();
+        
         for (Recipe recipeElement : recipes) {
+
             if (recipe.getRecipeName().equals(recipeElement.getRecipeName()) && (recipe.getId() != recipeElement.getId())) {
                 return true;
             }

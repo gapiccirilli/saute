@@ -111,9 +111,9 @@ public class StandardRecipeBookService implements RecipeBookService {
     // ------------------------------------------------------------------------------------------------------------|
 
     private boolean hasNameDuplicate(RecipeBookDto recipeBook) {
-        List<RecipeBook> recipeBooks = recipeBookRepository.findByRecipeBookNameStartingWith(recipeBook.getRecipeBookName());
+        Optional<RecipeBook> optRecipeBook = recipeBookRepository.findByRecipeBookName(recipeBook.getRecipeBookName());
 
-        if (!recipeBooks.isEmpty()) {
+        if (optRecipeBook.isPresent() && optRecipeBook.get().getId() != recipeBook.getId()) {
             return true;
         }
         return false;

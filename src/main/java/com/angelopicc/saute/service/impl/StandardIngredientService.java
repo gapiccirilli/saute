@@ -113,7 +113,7 @@ public class StandardIngredientService implements IngredientService {
     private boolean hasNameDuplicate(IngredientDto ingredient) {
         Optional<Ingredient> optIngredient = ingredientRepository.findByIngredientName(ingredient.getIngredientName());
 
-        if (optIngredient.isPresent()) {
+        if (optIngredient.isPresent() && optIngredient.get().getId() != ingredient.getId()) {
             return true;
         }
         return false;

@@ -114,7 +114,7 @@ public class StandardShoppingListService implements ShoppingListService {
     private boolean hasNameDuplicate(ShoppingListDto list) {
         Optional<ShoppingList> optList = shoppingListRepository.findByListName(list.getListName());
 
-        if (optList.isPresent()) {
+        if (optList.isPresent() && optList.get().getId() != list.getId()) {
             return true;
         }
         return false;
