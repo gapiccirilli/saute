@@ -7,12 +7,14 @@ public class RecipeDto {
     private String recipeName;
     private String description;
 
+    private long recipeBookId;
     private final String type = "Recipe";
     
-    public RecipeDto(long id, String recipeName, String description) {
+    public RecipeDto(long id, String recipeName, String description, long recipeBookId) {
         this.id = id;
         this.recipeName = recipeName;
         this.description = description;
+        this.recipeBookId = recipeBookId;
     }
 
     public RecipeDto() {
@@ -40,6 +42,14 @@ public class RecipeDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public long getRecipeBookId() {
+        return recipeBookId;
+    }
+
+    public void setRecipeBookId(long recipeBookId) {
+        this.recipeBookId = recipeBookId;
     }
 
     public String getType() {

@@ -254,6 +254,6 @@ public class StandardRecipeService implements RecipeService {
     }
     
     private RecipeDto mapToDto(Recipe entity) {
-        return new RecipeDto(entity.getId(), entity.getRecipeName(), entity.getDescription());
+        return new RecipeDto(entity.getId(), entity.getRecipeName(), entity.getDescription(), entity.getRecipeBook().getId());
     }
 }
