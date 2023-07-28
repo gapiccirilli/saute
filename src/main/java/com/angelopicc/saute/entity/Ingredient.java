@@ -23,8 +23,7 @@ public class Ingredient {
 
     private String image;
 
-    @OneToMany(mappedBy = "ingredient", cascade = {CascadeType.DETACH, CascadeType.MERGE, 
-    CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "ingredient", cascade = {CascadeType.ALL})
     private List<Item> items = new ArrayList<>();
 
     public Ingredient() {
