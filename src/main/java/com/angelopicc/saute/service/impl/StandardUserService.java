@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.angelopicc.saute.entity.User;
 import com.angelopicc.saute.entity.roles.Role;
@@ -14,6 +15,7 @@ import com.angelopicc.saute.repository.UserRepository;
 import com.angelopicc.saute.service.UserService;
 import static com.angelopicc.saute.utility.message.StatusMessage.DELETE_SUCCESSFUL;
 
+@Service
 public class StandardUserService implements UserService {
 
     private UserRepository userRepository;
