@@ -24,15 +24,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        User user = userRepository.findByEmail(username)
+                                    .orElseThrow(() -> new UsernameNotFoundException(username + " can't be found"));
 
+        
         Set<GrantedAuthority> authorities = Set.of(SecurityUtils.convertToAuthority(user.getRole().name()));
 
-        UserPrinciple userDetails = new UserPrinciple();
-        userDetails.setUser(user);
-        userDetails.setAuthorities(authorities);
-        
-        return userDetails;
+        return new CustomUserDetails(user, authorities);
     }
     
 }

@@ -8,32 +8,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.angelopicc.saute.entity.User;
 
-public class UserPrinciple implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private User user;
     private Set<GrantedAuthority> authorities;
 
-    public UserPrinciple(User user, Set<GrantedAuthority> authorities) {
+    public CustomUserDetails(User user, Set<GrantedAuthority> authorities) {
         this.user = user;
         this.authorities = authorities;
     }
 
-    public UserPrinciple() {
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return this.authorities;
     }
 
     @Override
     public String getPassword() {
-       return user.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-       return user.getEmail();
+        return user.getEmail();
     }
 
     @Override
@@ -56,15 +53,5 @@ public class UserPrinciple implements UserDetails {
         return true;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setAuthorities(Set<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
+    
 }
