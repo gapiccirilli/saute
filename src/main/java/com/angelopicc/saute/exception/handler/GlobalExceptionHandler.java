@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import javax.naming.AuthenticationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +20,7 @@ import com.angelopicc.saute.exception.NoIngredientsFoundException;
 import com.angelopicc.saute.exception.NoRecipesFoundException;
 import com.angelopicc.saute.exception.NoShoppingListsFoundException;
 import com.angelopicc.saute.exception.RecipeAlreadyExists;
+import com.angelopicc.saute.exception.UserExistsException;
 import com.angelopicc.saute.exception.UserNotFoundException;
 import com.angelopicc.saute.payload.Error;
 
@@ -95,7 +98,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
         request.getDescription(false));
 
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserExistsException.class)
+    public ResponseEntity<Error> handleUserExistsException(Exception exception, WebRequest request) {
+        Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
+        request.getDescription(false));
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Error> handleAuthenticationException(Exception exception, WebRequest request) {
+        Error error = new Error(LocalDateTime.of(LocalDate.now(), LocalTime.now()), exception.getMessage(), 
+        request.getDescription(false));
+
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

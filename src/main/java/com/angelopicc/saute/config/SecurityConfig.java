@@ -36,21 +36,12 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/shopping-lists/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers("/api/items/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers("/api/search/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/users/**").permitAll();
+                    auth.requestMatchers("/").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
-                .build();
-    }
-
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                })
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 

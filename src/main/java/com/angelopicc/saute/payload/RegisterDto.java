@@ -1,6 +1,6 @@
 package com.angelopicc.saute.payload;
 
-public class CreateUserDto {
+public class RegisterDto {
     
     private long id;
     private String firstName;
@@ -9,10 +9,9 @@ public class CreateUserDto {
     private String password;
     private String phoneNumber;
     private String gender;
-    private String profilePicture;
     
-    public CreateUserDto(long id, String firstName, String lastName, String email, String password, String phoneNumber,
-            String gender, String profilePicture) {
+    public RegisterDto(long id, String firstName, String lastName, String email, String password, String phoneNumber,
+            String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,10 +19,9 @@ public class CreateUserDto {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
-        this.profilePicture = profilePicture;
     }
 
-    public CreateUserDto() {
+    public RegisterDto() {
     }
 
     public long getId() {
@@ -82,17 +80,9 @@ public class CreateUserDto {
         this.gender = gender;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     @Override
     public String toString() {
         return "CreateUserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-                + ", phoneNumber=" + phoneNumber + ", gender=" + gender + ", profilePicture=" + profilePicture + "]";
+                + ", phoneNumber=" + phoneNumber + ", gender=" + gender + "]";
     }
 }

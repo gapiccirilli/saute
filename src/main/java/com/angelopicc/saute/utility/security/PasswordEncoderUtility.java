@@ -5,8 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class PasswordEncoderUtility {
     
-    public static void main(String[] args) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode(args[0]));
-    }
+    // public static void main(String[] args) {
+    //     PasswordEncoder encoder = new BCryptPasswordEncoder();
+    //     System.out.println(encoder.encode(args[0]));
+    // }
 }
