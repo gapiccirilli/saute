@@ -49,9 +49,15 @@ public class StandardLoginService implements LoginService {
 
     private HttpHeaders getJwtHeader(Authentication authentication) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", jwtTokenProvider.generateToken(authentication));
+        headers.add("Set-Cookie", "Bearer " + jwtTokenProvider.generateToken(authentication) + "; Max-Age=43000000; Path=/; Secure; HttpOnly");
         return headers;
     }
+
+    // private HttpHeaders getJwtHeader(Authentication authentication) {
+    //     HttpHeaders headers = new HttpHeaders();
+    //     headers.add("Authorization", jwtTokenProvider.generateToken(authentication));
+    //     return headers;
+    // }
 
 
     private UserDto mapToDto(User user) {

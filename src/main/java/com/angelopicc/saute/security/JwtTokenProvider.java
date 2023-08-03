@@ -66,8 +66,6 @@ public class JwtTokenProvider {
     }
 
     private static Key getKey() throws NoSuchAlgorithmException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-        // SecretKey key = keyGenerator.generateKey();
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
         return key;
     }
