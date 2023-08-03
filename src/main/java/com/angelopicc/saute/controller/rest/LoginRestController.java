@@ -23,6 +23,6 @@ public class LoginRestController {
 
     @PostMapping
     public ResponseEntity<UserDto> login(@RequestBody LoginDto credentials) {
-        return new ResponseEntity<>(loginService.login(credentials), HttpStatus.OK);
+        return loginService.login(credentials);
     }
 }
