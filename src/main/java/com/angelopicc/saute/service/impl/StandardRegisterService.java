@@ -44,7 +44,6 @@ public class StandardRegisterService implements RegisterService {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
-        user.setGender(dto.getGender());
         user.setPhoneNumber(dto.getPhoneNumber());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(Role.USER);
@@ -60,7 +59,6 @@ public class StandardRegisterService implements RegisterService {
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
         dto.setPhoneNumber(user.getPhoneNumber());
-        dto.setGender(user.getGender());
 
         return dto;
     }

@@ -7,17 +7,14 @@ public class UserDto {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String gender;
     private String profilePicture;
     
-    public UserDto(long id, String firstName, String lastName, String email, String phoneNumber, String gender,
-            String profilePicture) {
+    public UserDto(long id, String firstName, String lastName, String email, String phoneNumber, String profilePicture) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.gender = gender;
         this.profilePicture = profilePicture;
     }
 
@@ -64,14 +61,6 @@ public class UserDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getProfilePicture() {
         return profilePicture;
     }
@@ -83,6 +72,6 @@ public class UserDto {
     @Override
     public String toString() {
         return "UserDto [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber="
-                + phoneNumber + ", gender=" + gender + ", profilePicture=" + profilePicture + "]";
+                + phoneNumber + ", profilePicture=" + profilePicture + "]";
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angelopicc.saute.payload.ShoppingListDto;
 import com.angelopicc.saute.service.ShoppingListService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/shopping-lists")
 public class ShoppingListRestController {

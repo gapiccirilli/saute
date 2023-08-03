@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angelopicc.saute.payload.ItemDto;
 import com.angelopicc.saute.service.ItemService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ItemRestController {

@@ -8,17 +8,14 @@ public class RegisterDto {
     private String email;
     private String password;
     private String phoneNumber;
-    private String gender;
     
-    public RegisterDto(long id, String firstName, String lastName, String email, String password, String phoneNumber,
-            String gender) {
+    public RegisterDto(long id, String firstName, String lastName, String email, String password, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.gender = gender;
     }
 
     public RegisterDto() {
@@ -72,17 +69,9 @@ public class RegisterDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     @Override
     public String toString() {
         return "CreateUserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-                + ", phoneNumber=" + phoneNumber + ", gender=" + gender + "]";
+                + ", phoneNumber=" + phoneNumber + "]";
     }
 }

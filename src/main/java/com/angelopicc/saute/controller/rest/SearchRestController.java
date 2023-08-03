@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.angelopicc.saute.service.impl.GlobalSearchService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/search")
 public class SearchRestController {

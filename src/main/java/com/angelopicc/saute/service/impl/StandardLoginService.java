@@ -15,7 +15,6 @@ import com.angelopicc.saute.exception.UserNotFoundException;
 import com.angelopicc.saute.payload.LoginDto;
 import com.angelopicc.saute.payload.UserDto;
 import com.angelopicc.saute.repository.UserRepository;
-import com.angelopicc.saute.security.CustomUserDetails;
 import com.angelopicc.saute.security.JwtTokenProvider;
 import com.angelopicc.saute.service.LoginService;
 
@@ -62,7 +61,6 @@ public class StandardLoginService implements LoginService {
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
         dto.setPhoneNumber(user.getPhoneNumber());
-        dto.setGender(user.getGender());
 
         return dto;
     }

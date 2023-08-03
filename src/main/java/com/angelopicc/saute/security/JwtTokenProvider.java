@@ -21,7 +21,7 @@ public class JwtTokenProvider {
 
     private static final Key JWT_SECRET = assignKey();
 
-    private static final long JWT_EXPIRATION = 432_000_000;
+    private static final long JWT_EXPIRATION = 43_000_000;
 
     public String generateToken(Authentication auth) {
 

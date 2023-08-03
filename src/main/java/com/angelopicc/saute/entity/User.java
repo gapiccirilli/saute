@@ -34,9 +34,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = false)
-    private String gender;
-
     private String profilePicture;
 
     @Column(nullable = false)
@@ -47,14 +44,13 @@ public class User {
     private Role role;
 
     public User(long id, String email, String password, String firstName, String lastName, String phoneNumber,
-            String gender, String profilePicture, LocalDateTime createTime, Role role) {
+                String profilePicture, LocalDateTime createTime, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.gender = gender;
         this.profilePicture = profilePicture;
         this.createTime = createTime;
         this.role = role;
@@ -125,14 +121,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getProfilePicture() {

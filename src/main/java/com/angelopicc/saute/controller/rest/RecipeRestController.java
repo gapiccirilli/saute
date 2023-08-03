@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angelopicc.saute.payload.RecipeDto;
 import com.angelopicc.saute.service.RecipeService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class RecipeRestController {
